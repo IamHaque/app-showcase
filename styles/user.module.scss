@@ -1,0 +1,19 @@
+@use "/styles/utils" as *;
+
+.formWrapper {
+  gap: 2em;
+  display: flex;
+  flex-direction: column;
+
+  & > *:last-child {
+    margin-top: 2em;
+  }
+}
+
+.redirect {
+  text-align: center;
+  font-size: $fs-300;
+
+  padding-top: 3em;
+  padding-bottom: 3em;
+}

@@ -1,0 +1,24 @@
+@use "styles/utils.scss" as *;
+
+.userContainer {
+  display: flex;
+  margin: 0 auto;
+  flex-direction: column;
+  max-width: 425px !important;
+}
+
+.headline {
+  font-size: $fs-800;
+  font-weight: $fw-semi-bold;
+
+  padding-top: 2em;
+  padding-bottom: 2em;
+}
+
+.main {
+  gap: 1em;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

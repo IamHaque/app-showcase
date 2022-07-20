@@ -1,0 +1,43 @@
+@use "styles/utils.scss" as *;
+
+.game {
+  padding: 1em;
+  display: flex;
+  overflow: hidden;
+  color: $light-fg;
+  position: relative;
+  border-radius: 20px;
+  aspect-ratio: 9 / 16;
+  flex-direction: column;
+  justify-content: flex-end;
+  box-shadow: 0 10px 10px -5px #00000080;
+
+  .gameImage {
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    position: absolute;
+    filter: brightness(0.5) blur(1px);
+  }
+
+  .gameInfo {
+    z-index: 10;
+    margin: -1em;
+    padding: 1em 2em 2em;
+    background-image: linear-gradient(#0000, #000 30%);
+
+    .gameTitle {
+      font-size: $fs-800;
+      margin-bottom: 0.5em;
+      font-weight: $fw-bold;
+    }
+
+    .gameDesc {
+      color: $gray-300;
+      font-size: $fs-300;
+      margin-bottom: 2em;
+      line-height: 1.75em;
+      font-weight: $fw-regular;
+    }
+  }
+}

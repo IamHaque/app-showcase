@@ -1,0 +1,59 @@
+@use "styles/utils.scss" as *;
+
+.button {
+  $button-fg: $primary-text-600;
+  $button-bg: $primary-600;
+  $button-bg-active: $primary-500;
+  $button-bg-disabled: $primary-400;
+
+  width: 100%;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 0.75em;
+  color: $button-fg;
+  border-radius: 8px;
+  text-align: center;
+  font-size: $fs-400;
+  font-family: $fontFamily;
+  font-weight: $fw-semi-bold;
+  background-color: $button-bg;
+  transition: all 200ms ease-in-out;
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: $button-bg-disabled;
+  }
+
+  &:active,
+  &:focus,
+  &:hover {
+    background-color: $button-bg-active;
+  }
+
+  &.small {
+    padding: 0.5em 1em;
+    font-size: $fs-200;
+    border-radius: 3px;
+  }
+
+  &.outlined {
+    color: $primary-text-100;
+    background-color: transparent;
+    border: 1px solid $primary-text-100;
+
+    &:disabled {
+      border: none;
+      color: $gray-200;
+      cursor: not-allowed;
+      background-color: $gray-300;
+    }
+
+    &:active,
+    &:focus,
+    &:hover {
+      color: $primary-text-600;
+      background-color: $primary-text-100;
+    }
+  }
+}

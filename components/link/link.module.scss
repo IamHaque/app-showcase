@@ -1,0 +1,13 @@
+@use "styles/utils.scss" as *;
+
+.link {
+  color: $primary-600;
+  text-decoration: none;
+  font-weight: $fw-medium;
+
+  &:active,
+  &:focus,
+  &:hover {
+    text-decoration: underline;
+  }
+}

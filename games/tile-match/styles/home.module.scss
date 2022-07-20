@@ -1,0 +1,91 @@
+.header,
+.main {
+  width: 100%;
+  max-width: 480px;
+}
+
+.header {
+  padding-top: 2em;
+}
+
+.main {
+  flex: 1;
+  gap: 5em;
+  display: flex;
+  padding: 2em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.greetUser {
+  width: 100%;
+  font-weight: 300;
+  font-size: 1.3em;
+  text-align: center;
+
+  .small {
+    max-width: 35ch;
+    font-size: 1em;
+    margin: 0.5em auto 0;
+  }
+
+  .username {
+    font-size: 2em;
+    font-weight: 700;
+    word-wrap: break-word;
+    font-family: "Courier New", Courier, monospace;
+  }
+}
+
+.bottomButtons {
+  gap: 1em;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  & > * {
+    width: 100%;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 2px;
+    letter-spacing: 2px;
+    transition: background-color 200ms ease-in-out;
+    background-color: hsl(var(--hue, 0), 29%, 40%);
+
+    &:focus,
+    &:active,
+    &:hover {
+      background-color: hsl(var(--hue, 0), 29%, 35%);
+    }
+  }
+
+  .startGameButton {
+    --hue: 250;
+
+    & > a {
+      display: block;
+      padding: 1em;
+    }
+  }
+
+  .showLeaderboardButton {
+    --hue: 130;
+
+    & > a {
+      display: block;
+      padding: 1em;
+    }
+  }
+
+  .goBackButton {
+    --hue: 0;
+
+    & > a {
+      display: block;
+      padding: 1em;
+    }
+  }
+}

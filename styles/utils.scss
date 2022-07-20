@@ -1,0 +1,246 @@
+/*  TYPOGRAPHY  */
+
+// $fontFamily: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+$fontFamily: "Poppins", sans-serif;
+
+$fs-900: 2.5rem;
+$fs-800: 2rem;
+$fs-700: 1.5rem;
+$fs-600: 1.25rem;
+$fs-500: 1.125rem;
+$fs-400: 1rem;
+$fs-300: 0.875rem;
+$fs-200: 0.75rem;
+$fs-100: 0.7rem;
+
+$fw-bold: 700;
+$fw-semi-bold: 600;
+$fw-medium: 500;
+$fw-regular: 400;
+$fw-light: 300;
+
+@mixin sm-text-headline {
+  font-size: $fs-700;
+  font-weight: $fw-medium;
+}
+
+@mixin sm-text-title {
+  font-size: $fs-600;
+  font-weight: $fw-medium;
+}
+
+@mixin sm-text-subtitle {
+  font-size: $fs-400;
+  font-weight: $fw-regular;
+}
+
+@mixin sm-text-body {
+  font-size: $fs-400;
+  font-weight: $fw-medium;
+}
+
+@mixin sm-text-body2 {
+  font-size: $fs-300;
+  font-weight: $fw-regular;
+}
+
+@mixin sm-text-button {
+  font-size: $fs-300;
+  font-weight: $fw-medium;
+}
+
+@mixin sm-text-caption {
+  font-size: $fs-300;
+  font-weight: $fw-regular;
+}
+
+@mixin sm-text-overline {
+  font-size: $fs-200;
+  font-weight: $fw-regular;
+}
+
+@mixin lg-text-headline {
+  font-size: $fs-900;
+  font-weight: $fw-medium;
+}
+
+@mixin lg-text-title {
+  font-size: $fs-600;
+  font-weight: $fw-medium;
+}
+
+@mixin lg-text-subtitle {
+  font-size: $fs-5 00;
+  font-weight: $fw-regular;
+}
+
+@mixin lg-text-body {
+  font-size: $fs-400;
+  font-weight: $fw-medium;
+}
+
+@mixin lg-text-body2 {
+  font-size: $fs-300;
+  font-weight: $fw-regular;
+}
+
+@mixin lg-text-button {
+  font-size: $fs-300;
+  font-weight: $fw-medium;
+}
+
+@mixin lg-text-caption {
+  font-size: $fs-300;
+  font-weight: $fw-regular;
+}
+
+@mixin lg-text-overline {
+  font-size: $fs-200;
+  font-weight: $fw-regular;
+}
+
+/*  COLORS  */
+$dark-bg: #1b1a21;
+$light-bg: #fcfcff;
+
+$dark-fg: #222222;
+$light-fg: #ffffff;
+
+/*  1. Primary  */
+$primary-text-600: $light-fg;
+$primary-text-500: $light-fg;
+$primary-text-400: $dark-fg;
+$primary-text-300: $dark-fg;
+$primary-text-200: $dark-fg;
+$primary-text-100: $dark-fg;
+
+$primary-600: #706cff;
+$primary-500: #7e7bff;
+$primary-400: #9b98ff;
+$primary-300: #b7b6ff;
+$primary-200: #d4d3ff;
+$primary-100: #f1f0ff;
+
+/*  2. Secondary  */
+$secondary-text-600: $light-fg;
+$secondary-text-500: $light-fg;
+$secondary-text-400: $dark-fg;
+$secondary-text-300: $dark-fg;
+$secondary-text-200: $dark-fg;
+$secondary-text-100: $dark-fg;
+
+$secondary-600: #34c19c;
+$secondary-500: #48c7a6;
+$secondary-400: #71d4ba;
+$secondary-300: #99e0ce;
+$secondary-200: #c2ece1;
+$secondary-100: #ebf9f5;
+
+/*  3. Gray  */
+$gray-text-600: $light-fg;
+$gray-text-500: $light-fg;
+$gray-text-400: $light-fg;
+$gray-text-300: $dark-fg;
+$gray-text-200: $dark-fg;
+$gray-text-100: $dark-fg;
+
+$gray-600: #222222;
+$gray-500: #383838;
+$gray-400: #646464;
+$gray-300: #919191;
+$gray-200: #bdbdbd;
+$gray-100: #e9e9e9;
+
+/*  4. Neutral  */
+$neutral-text-600: $light-fg;
+$neutral-text-500: $dark-fg;
+$neutral-text-400: $dark-fg;
+$neutral-text-300: $dark-fg;
+$neutral-text-200: $dark-fg;
+$neutral-text-100: $dark-fg;
+
+$neutral-600: #4b4b4b;
+$neutral-500: #cbcbcb;
+$neutral-400: #ededed;
+$neutral-300: #f9f9f9;
+$neutral-200: #fcfcfc;
+$neutral-100: #ffffff;
+
+/*  5. Info  */
+$info-text-600: $light-fg;
+$info-text-500: $light-fg;
+$info-text-400: $dark-fg;
+$info-text-300: $dark-fg;
+$info-text-200: $dark-fg;
+$info-text-100: $dark-fg;
+
+$info-600: #0094ff;
+$info-500: #199fff;
+$info-400: #4cb4ff;
+$info-300: #80c9ff;
+$info-200: #b2dfff;
+$info-100: #e5f4ff;
+
+/*  6. Warning  */
+$warning-text-600: $dark-fg;
+$warning-text-500: $dark-fg;
+$warning-text-400: $dark-fg;
+$warning-text-300: $dark-fg;
+$warning-text-200: $dark-fg;
+$warning-text-100: $dark-fg;
+
+$warning-600: #e89f29;
+$warning-500: #eaa93e;
+$warning-400: #efbc69;
+$warning-300: #f4cf94;
+$warning-200: #f8e2bf;
+$warning-100: #fdf5ea;
+
+/*  7. Error  */
+$error-text-600: $light-fg;
+$error-text-500: $light-fg;
+$error-text-400: $dark-fg;
+$error-text-300: $dark-fg;
+$error-text-200: $dark-fg;
+$error-text-100: $dark-fg;
+
+$error-600: #e3002a;
+$error-500: #e6193f;
+$error-400: #eb4c6a;
+$error-300: #f18095;
+$error-200: #f7b2bf;
+$error-100: #fce5ea;
+
+/*  8. Success  */
+$success-text-600: $light-fg;
+$success-text-500: $light-fg;
+$success-text-400: $dark-fg;
+$success-text-300: $dark-fg;
+$success-text-200: $dark-fg;
+$success-text-100: $dark-fg;
+
+$success-600: #00b300;
+$success-500: #19bb19;
+$success-400: #4cca4c;
+$success-300: #80d980;
+$success-200: #b2e8b2;
+$success-100: #e5f7e5;
+
+/*  ICONS  */
+$back: url("/back.svg");
+$lock: url("/lock.svg");
+$mail: url("/mail.svg");
+$user: url("/user.svg");
+$eye-open: url("/eye-open.svg");
+$eye-closed: url("/eye-closed.svg");
+
+/*  JUMPY DINO  */
+$blue: hsl(194, 91%, 68%);
+$cyan: hsl(172, 70%, 59%);
+$green: hsl(72, 59%, 57%);
+$lime: hsl(146, 71%, 60%);
+$orange: hsl(22, 92%, 74%);
+$pink: hsl(309, 92%, 81%);
+$purple: hsl(262, 90%, 84%);
+$red: hsl(356, 78%, 70%);
+$bg-gradient: linear-gradient(#3fdeec, #ffebd2);

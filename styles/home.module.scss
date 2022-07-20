@@ -1,0 +1,43 @@
+@use "/styles/utils" as *;
+
+.homeContainer {
+  display: flex;
+  margin: 0 auto;
+  flex-direction: column;
+  max-width: 769px !important;
+}
+
+.header {
+  gap: 1em;
+  display: flex;
+  padding-top: 2em;
+  padding-bottom: 2em;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  .left {
+    gap: 0.5em;
+    display: flex;
+    font-size: $fs-300;
+    flex-direction: column;
+
+    .username {
+      font-size: $fs-700;
+      color: $primary-500;
+      font-weight: $fw-semi-bold;
+    }
+  }
+}
+
+.gamesContainer {
+  gap: 1.5em;
+  display: grid;
+  padding-bottom: 1.5em;
+  grid-template-columns: 1fr 1fr;
+}
+
+@media screen and (max-width: 720px) {
+  .gamesContainer {
+    grid-template-columns: 1fr;
+  }
+}

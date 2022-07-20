@@ -1,0 +1,59 @@
+@use "styles/utils.scss" as *;
+
+.inputWrapper {
+  gap: 0.5em;
+  display: flex;
+  flex-direction: column;
+
+  .label {
+    font-size: $fs-300;
+    font-weight: $fw-regular;
+  }
+
+  .inputWithIcons {
+    $size: 2.5em;
+
+    display: flex;
+    border-radius: 4px;
+    align-items: center;
+    border: 1px solid $gray-300;
+
+    &.invalid {
+      border-color: $error-600;
+    }
+
+    .input {
+      flex-grow: 1;
+      height: $size;
+      max-width: 100%;
+      color: $dark-fg;
+      padding: 0 0.2em;
+      font-size: $fs-400;
+      line-height: $fs-500;
+      font-weight: $fw-regular;
+      font-family: $fontFamily;
+      background-color: inherit;
+
+      &.noIcons {
+        padding: 0 0.75em;
+      }
+    }
+
+    .icon {
+      width: $size;
+      height: $size;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .rightIcon {
+      cursor: pointer;
+    }
+  }
+
+  .errors {
+    color: $error-600;
+    font-size: $fs-200;
+    font-weight: $fw-bold;
+  }
+}
