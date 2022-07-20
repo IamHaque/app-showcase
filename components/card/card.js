@@ -5,7 +5,7 @@ import { Button } from "components";
 export default function Card({ title, img, desc, clickHandler }) {
   return (
     <div className={styles.game}>
-      <img src={img} className={styles.gameImage} />
+      <img src={img} alt={title} className={styles.gameImage} />
 
       <div className={styles.gameInfo}>
         <h1 className={styles.gameTitle}>{title}</h1>
