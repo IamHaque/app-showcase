@@ -19,8 +19,8 @@ export default function Register() {
 
   // form validation rules
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Name is required"),
-    username: Yup.string().required("Username is required"),
+    name: Yup.string().trim().required("Name is required"),
+    username: Yup.string().trim().required("Username is required"),
     password: Yup.string()
       .required("Password is required")
       .min(6, "Password must contain at least 6 characters"),
