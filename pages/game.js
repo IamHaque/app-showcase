@@ -2,6 +2,8 @@ import { useRouter } from "next/router";
 
 import { useEffect, useState } from "react";
 
+import * as API from "games/jumpy-dino/utils/API";
+
 import JumpyDinoHome from "games/jumpy-dino/pages";
 
 import TileMatchHome from "games/tile-match/pages";
@@ -24,9 +26,19 @@ function Game() {
   const router = useRouter();
   const { gameTitle, gameIndex } = router.query;
 
+  const [leaderboardData, setLeaderboardData] = useState([]);
   const [tileMatchGameScreen, setTileMatchGameScreen] = useState(
     tileMatchGameScreens.HOME
   );
+
+  useEffect(() => {
+    const fetchLeaderboard = async () => {
+      const data = await API.getLeaderboardData();
+      setLeaderboardData(data);
+    };
+
+    fetchLeaderboard().catch(console.error);
+  }, []);
 
   useEffect(() => {
     // return to home page if no user of invalid game details
@@ -36,7 +48,12 @@ function Game() {
   }, [router.isReady]);
 
   if (gameTitle === "Jumpy Dino") {
-    return <JumpyDinoHome username={userService.userValue?.username} />;
+    return (
+      <JumpyDinoHome
+        leaderboardData={leaderboardData}
+        username={userService.userValue?.username}
+      />
+    );
   }
 
   if (gameTitle === "Tile Match") {

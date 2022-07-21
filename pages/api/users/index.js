@@ -6,6 +6,6 @@ export default apiHandler({
 
 async function getUsers(req, res) {
   const response = await usersRepo.getAll();
-  const usernames = response.map((x) => omit(x, "password"));
-  return res.status(200).json(response);
+  const usernames = response.map((x) => x.username);
+  return res.status(200).json(usernames);
 }

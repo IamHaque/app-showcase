@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 
-import Link from "next/link";
-
 import { mapRange, initializeTiles, showElapsedTime } from "../shared/utils";
+
+import { fetchWrapper } from "helpers";
 
 import Tile from "games/tile-match/components/tile";
 import Leaderboard from "games/tile-match/components/leaderboard";
 import GridSelectButton from "games/tile-match/components/grid-selection-button";
+import { gameService } from "services";
 
 export default function TileMatchGame({ username, homeClickHandler }) {
   const GRID_SIZES = [2, 4, 6, 8];
@@ -217,44 +218,35 @@ export default function TileMatchGame({ username, homeClickHandler }) {
   };
 
   const updateDBData = async (score) => {
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    try {
+      await gameService.updateScore("Tile Match", {
         score,
         username: currentUser,
         gridSize: gameState.gridSize,
-      }),
-    };
-
-    await fetch("/api/games/tile-match/updateScores", requestOptions);
+      });
+    } catch (_) {}
   };
 
   const getRemoteHighScores = async () => {
-    const requestOptions = {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    };
-
-    const response = await fetch("/api/games/tile-match/user/" + currentUser);
-    const data = await response.json();
-    return data.scores;
+    try {
+      const data = await gameService.getUserScore("Tile Match", currentUser);
+      return data.scores;
+    } catch (_) {
+      return;
+    }
   };
 
   const getLeaderboardData = async () => {
-    const requestOptions = {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    };
+    try {
+      const data = await gameService.getLeaderboard(
+        "Tile Match",
+        gameState.gridSize
+      );
 
-    const response = await fetch(
-      "/api/games/tile-match/leaderboard/" + gameState.gridSize
-    );
-    const data = await response.json();
-
-    if (data && data.leaderboard) {
-      setLeaderBoard(data.leaderboard);
-    }
+      if (data && data.leaderboard) {
+        setLeaderBoard(data.leaderboard);
+      }
+    } catch (_) {}
   };
 
   const handleGameOver = async () => {

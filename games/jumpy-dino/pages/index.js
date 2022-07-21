@@ -33,7 +33,7 @@ const Sketch = dynamic(
   }
 );
 
-export default function JumpyDinoHome({ username }) {
+export default function JumpyDinoHome({ username, leaderboardData }) {
   // Game variables
   // ["blue", "cyan", "green", "lime", "orange", "pink", "purple", "red"]
   let REMAINING_COLORS = ["cyan", "lime", "orange", "pink", "purple"];
@@ -80,9 +80,9 @@ export default function JumpyDinoHome({ username }) {
 
   // Game states
   const [isBusy, setIsBusy] = useState(false);
-  const [leaderboard, setLeaderboard] = useState([]);
   const [currentScore, setCurrentScore] = useState(0);
   const [gameState, setGameState] = useState("homeScreen");
+  const [leaderboard, setLeaderboard] = useState(leaderboardData);
 
   // Game static references
   const CANVAS_WIDTH_REF = useRef(100);

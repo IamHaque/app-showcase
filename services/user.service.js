@@ -53,7 +53,7 @@ function getAll() {
 }
 
 function getByUsername(username) {
-  return fetchWrapper.get(`${baseUrl}/${id}`);
+  return fetchWrapper.get(`${baseUrl}/${username}`);
 }
 
 function update(username, params) {

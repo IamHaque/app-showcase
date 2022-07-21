@@ -1,54 +1,28 @@
-export const getLeaderboardData = async (hostname) => {
-  try {
-    const URL = hostname
-      ? hostname + "/api/games/jumpy-dino/leaderboard"
-      : "/api/games/jumpy-dino/leaderboard";
+import { gameService } from "services";
 
-    const requestOptions = {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    };
-    const response = await fetch(URL, requestOptions);
-    const data = await response.json();
+const GAME_TITLE = "Jumpy Dino";
+
+export const getLeaderboardData = async () => {
+  try {
+    const data = await gameService.getLeaderboard(GAME_TITLE);
 
     if (data && data.status && data.status === "success") {
       return [...data.leaderboard];
     }
 
     return [];
-  } catch (e) {
+  } catch (_) {
     return [];
   }
 };
 
 export const updateLeaderboard = async (username, score) => {
   try {
-    const requestOptions = {
-      method: "POST",
-      body: JSON.stringify({ username, score }),
-      headers: { "Content-Type": "application/json" },
-    };
-
-    await fetch("/api/games/jumpy-dino/updateHighscore", requestOptions);
-  } catch (e) {
+    await gameService.updateScore(GAME_TITLE, {
+      username,
+      score,
+    });
+  } catch (_) {
     return;
-  }
-};
-
-export const createNewUser = async (username) => {
-  try {
-    const requestOptions = {
-      method: "POST",
-      body: JSON.stringify({ username }),
-      headers: { "Content-Type": "application/json" },
-    };
-
-    const response = await fetch(
-      "/api/games/jumpy-dino/createUser",
-      requestOptions
-    );
-    return await response.json();
-  } catch (e) {
-    return { status: "failed", message: "Unknown error occurred" };
   }
 };

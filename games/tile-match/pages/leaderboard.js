@@ -4,6 +4,7 @@ import { mapRange } from "games/tile-match/shared/utils";
 
 import Leaderboard from "games/tile-match/components/leaderboard";
 import GridSelectButton from "games/tile-match/components/grid-selection-button";
+import { gameService } from "services";
 
 export default function TileMatchLeaderboard({ username, homeClickHandler }) {
   const GRID_SIZES = [2, 4, 6, 8];
@@ -35,20 +36,15 @@ export default function TileMatchLeaderboard({ username, homeClickHandler }) {
   const getLeaderboardData = async (selectedGridSize) => {
     if (!selectedGridSize || !GRID_SIZES.includes(selectedGridSize)) return;
 
-    const requestOptions = {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    };
-
-    const response = await fetch(
-      "/api/games/tile-match/leaderboard/" + selectedGridSize,
-      requestOptions
-    );
-    const data = await response.json();
-
-    if (data && data.leaderboard) {
-      setLeaderBoardData(data.leaderboard);
-    }
+    try {
+      const data = await gameService.getLeaderboard(
+        "Tile Match",
+        selectedGridSize
+      );
+      if (data && data.leaderboard) {
+        setLeaderBoardData(data.leaderboard);
+      }
+    } catch (_) {}
   };
 
   let GameHeaderContent = (

@@ -8,8 +8,6 @@ import * as Yup from "yup";
 
 import { userService, alertService } from "services";
 
-import { createNewUser } from "games/jumpy-dino/utils/API";
-
 import { Link, Input, Button, UserLayout } from "components";
 
 import styles from "styles/user.module.scss";
@@ -41,23 +39,9 @@ export default function Register() {
           keepAfterRouteChange: true,
         });
 
-        registerForAllGames(user.username);
-
         router.push("login");
       })
       .catch(alertService.error);
-  }
-
-  async function registerForAllGames(username) {
-    await fetch("/api/games/tile-match/addNewUser", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username,
-      }),
-    });
-
-    await createNewUser(username);
   }
 
   function togglePasswordVisibility() {
