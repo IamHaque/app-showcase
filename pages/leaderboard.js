@@ -71,7 +71,13 @@ function Leaderboard() {
         <Image width={400} height={300} src={"/winners.svg"} />
       </div>
 
-      {!isTileMatch && (
+      {!leaderboardData && (
+        <div className={styles.loading}>
+          <p>Loading...</p>
+        </div>
+      )}
+
+      {!isTileMatch && leaderboardData && (
         <main className={styles.leaderboardContainer}>
           {leaderboardData.map(({ rank, score, username }, index) => (
             <LeaderboardItem
@@ -84,7 +90,7 @@ function Leaderboard() {
         </main>
       )}
 
-      {isTileMatch && (
+      {isTileMatch && leaderboardData && (
         <main className={styles.leaderboardWrapper}>
           {Object.keys(leaderboardData[0]).map((gridSize) => {
             if (leaderboardData[0][gridSize].length <= 0) return <></>;

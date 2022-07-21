@@ -185,7 +185,7 @@ export default function JumpyDinoHome({ username }) {
       (user) => user.username === username
     );
 
-    if (!userLeaderboardData || userLeaderboardData.highscore < score) {
+    if (!userLeaderboardData || userLeaderboardData.score < score) {
       await API.updateLeaderboard(username, score);
     }
 

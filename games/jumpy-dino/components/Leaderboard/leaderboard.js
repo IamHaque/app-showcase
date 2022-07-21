@@ -35,7 +35,7 @@ export default function Leaderboard({
           >
             <span>{user.rank}.</span>
             <span>{user.username}</span>
-            <span>{user.highscore}</span>
+            <span>{user.score}</span>
           </p>
         ))}
 

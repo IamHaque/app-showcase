@@ -8,11 +8,19 @@
   grid-template-rows: 5rem min(20vh, 10rem) 1fr;
 }
 
-.leaderboardWrapper {
-  gap: 2em;
+.loading {
   display: flex;
-  overflow: scroll;
+  font-size: $fs-700;
+  padding-bottom: 2em;
+  align-items: center;
+  justify-content: center;
+}
+
+.leaderboardWrapper {
+  gap: 2.5em;
+  display: flex;
   margin-top: 1.5em;
+  overflow-y: scroll;
   margin-bottom: 1.5em;
   padding-bottom: 1.5em;
   flex-direction: column;
@@ -31,8 +39,8 @@
 .leaderboardContainer {
   gap: 1em;
   display: flex;
-  overflow: scroll;
   margin-top: 1.5em;
+  overflow-y: scroll;
   margin-bottom: 1.5em;
   padding-bottom: 1.5em;
   flex-direction: column;
@@ -40,7 +48,7 @@
   &.noScroll {
     margin: 0;
     padding: 0;
-    overflow: visible;
+    overflow-y: visible;
   }
 }
 
