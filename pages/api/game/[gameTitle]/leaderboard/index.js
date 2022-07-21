@@ -42,26 +42,26 @@ const createJDLeaderboardDataFromUsers = (users) => {
             ...acc,
             {
               rank: 0,
+              score: user.highscore,
               username: user.username,
-              highscore: user.highscore,
             },
           ]
         : acc;
     }, [])
-    .sort((a, b) => b.highscore - a.highscore);
+    .sort((a, b) => b.score - a.score);
 
   // Rank the leaderboard appropriately
   let currentRank = 1;
   while (currentRank <= leaderboard.length) {
-    const currentUserHighscore = leaderboard[currentRank - 1].highscore;
+    const currentUserHighscore = leaderboard[currentRank - 1].score;
     leaderboard = leaderboard.map((user) => {
-      return user.highscore === currentUserHighscore
+      return user.score === currentUserHighscore
         ? { ...user, rank: currentRank }
         : user;
     });
 
     const usersWithCurrentUserScore = leaderboard.filter(
-      (user) => user.highscore === currentUserHighscore
+      (user) => user.score === currentUserHighscore
     ).length;
     currentRank += usersWithCurrentUserScore;
   }

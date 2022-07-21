@@ -10,6 +10,7 @@
   aspect-ratio: 9 / 16;
   flex-direction: column;
   justify-content: flex-end;
+
   box-shadow: 0 10px 10px -5px #00000080;
 
   .gameImage {
@@ -39,5 +40,24 @@
       line-height: 1.75em;
       font-weight: $fw-regular;
     }
+  }
+}
+
+.buttons {
+  gap: 1em;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+@media screen and (max-width: 321px) {
+  .gameDesc {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 321px) {
+  .gameTitle {
+    margin-bottom: 1em !important;
+    font-size: $fs-500 !important;
   }
 }

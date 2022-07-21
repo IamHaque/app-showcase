@@ -15,6 +15,7 @@
   border-radius: 8px;
   text-align: center;
   font-size: $fs-400;
+  word-break: break-word;
   font-family: $fontFamily;
   font-weight: $fw-semi-bold;
   background-color: $button-bg;
@@ -55,5 +56,33 @@
       color: $primary-text-600;
       background-color: $primary-text-100;
     }
+  }
+
+  &.secondary {
+    $button-fg: $error-text-500;
+    $button-bg: $error-500;
+    $button-bg-active: $error-400;
+    $button-bg-disabled: $error-300;
+
+    color: $button-fg;
+    background-color: $button-bg;
+
+    &:disabled {
+      cursor: not-allowed;
+      background-color: $button-bg-disabled;
+    }
+
+    &:active,
+    &:focus,
+    &:hover {
+      background-color: $button-bg-active;
+    }
+  }
+}
+
+@media screen and (max-width: 321px) {
+  .button {
+    padding: 0.5em;
+    font-size: $fs-300;
   }
 }

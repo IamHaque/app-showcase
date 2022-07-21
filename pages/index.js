@@ -1,5 +1,7 @@
 import { useRouter } from "next/router";
 
+import Avatar from "boring-avatars";
+
 import { userService } from "services";
 
 import { Button, Card } from "components";
@@ -27,12 +29,39 @@ function Home() {
     });
   }
 
+  function openLeaderboard(gameIndex) {
+    if (gameIndex < 0 || gameIndex >= ALL_GAMES.length) return;
+
+    const gameTitle = ALL_GAMES[gameIndex].title;
+
+    router.push({
+      pathname: "/leaderboard",
+      query: {
+        gameTitle,
+        gameIndex,
+      },
+    });
+  }
+
   return (
     <div className={`mainContainer ${styles.homeContainer}`}>
       <header className={styles.header}>
         <div className={styles.left}>
-          <span>Welcome,</span>
-          <span className={styles.username}>{userService.userValue?.name}</span>
+          <div className={styles.avatar}>
+            <Avatar
+              square={true}
+              variant={"beam"}
+              name={userService.userValue?.username}
+              colors={["#E9A6A6", "#864879", "#A7D0CD", "#B85252", "#3C415C"]}
+            />
+          </div>
+
+          <div className={styles.userInfo}>
+            <span>Welcome,</span>
+            <span className={styles.username}>
+              {userService.userValue?.name}
+            </span>
+          </div>
         </div>
 
         <div className={styles.right}>
@@ -54,8 +83,11 @@ function Home() {
             key={index}
             desc={desc}
             title={title}
-            clickHandler={() => {
+            buttonOneClickHandler={() => {
               playGame(index);
+            }}
+            buttonTwoClickHandler={() => {
+              openLeaderboard(index);
             }}
           />
         ))}

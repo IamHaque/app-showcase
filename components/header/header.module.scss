@@ -1,0 +1,34 @@
+@use "styles/utils.scss" as *;
+
+.header {
+  gap: 1em;
+  display: flex;
+  align-items: center;
+}
+
+.left {
+  .backButton {
+    width: 2.5em;
+    height: 2.5em;
+    padding: 0.5em;
+    cursor: pointer;
+
+    & > * {
+      width: 100% !important;
+      height: 100% !important;
+    }
+  }
+}
+
+.center {
+  flex-grow: 1;
+
+  h1 {
+    color: $gray-400;
+    font-size: $fs-700;
+  }
+}
+
+.right {
+  display: none;
+}

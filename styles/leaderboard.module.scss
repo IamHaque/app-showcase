@@ -1,0 +1,54 @@
+@use "/styles/utils" as *;
+
+.appContainer {
+  height: 100%;
+  display: grid;
+  margin: 0 auto;
+  max-width: 769px !important;
+  grid-template-rows: 5rem min(20vh, 10rem) 1fr;
+}
+
+.leaderboardWrapper {
+  gap: 2em;
+  display: flex;
+  overflow: scroll;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+  padding-bottom: 1.5em;
+  flex-direction: column;
+
+  h2 {
+    font-size: $fs-300;
+    text-align: center;
+    color: $neutral-600;
+    padding: 1.1em 0 1em;
+    margin-bottom: 0.5em;
+    font-weight: $fw-semi-bold;
+    background-color: $neutral-400;
+  }
+}
+
+.leaderboardContainer {
+  gap: 1em;
+  display: flex;
+  overflow: scroll;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+  padding-bottom: 1.5em;
+  flex-direction: column;
+
+  &.noScroll {
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+  }
+}
+
+.illustration {
+  display: flex;
+  justify-content: center;
+
+  & > * {
+    height: 100% !important;
+  }
+}
