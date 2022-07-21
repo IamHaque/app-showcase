@@ -33,7 +33,7 @@ const Sketch = dynamic(
   }
 );
 
-export default function JumpyDinoHome({ username, leaderboardData }) {
+export default function JumpyDinoHome({ username }) {
   // Game variables
   // ["blue", "cyan", "green", "lime", "orange", "pink", "purple", "red"]
   let REMAINING_COLORS = ["cyan", "lime", "orange", "pink", "purple"];
@@ -80,9 +80,9 @@ export default function JumpyDinoHome({ username, leaderboardData }) {
 
   // Game states
   const [isBusy, setIsBusy] = useState(false);
+  const [leaderboard, setLeaderboard] = useState([]);
   const [currentScore, setCurrentScore] = useState(0);
   const [gameState, setGameState] = useState("homeScreen");
-  const [leaderboard, setLeaderboard] = useState(leaderboardData);
 
   // Game static references
   const CANVAS_WIDTH_REF = useRef(100);
@@ -102,6 +102,13 @@ export default function JumpyDinoHome({ username, leaderboardData }) {
     CANVAS_HEIGHT_REF.current = window.innerHeight;
     CANVAS_WIDTH_REF.current =
       window.innerWidth > 720 ? 720 : window.innerWidth;
+
+    const fetchLeaderboard = async () => {
+      const data = await API.getLeaderboardData();
+      setLeaderboard(data);
+    };
+
+    fetchLeaderboard().catch(console.error);
   }, []);
 
   const stopAllSounds = () => {
