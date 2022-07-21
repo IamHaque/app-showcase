@@ -75,10 +75,10 @@ function Leaderboard() {
         <main className={styles.leaderboardContainer}>
           {leaderboardData.map(({ rank, score, username }, index) => (
             <LeaderboardItem
-              key={index}
               rank={rank}
               score={score}
               username={username}
+              key={`${index}-${username}-${rank}-${score}`}
             />
           ))}
         </main>
@@ -90,7 +90,7 @@ function Leaderboard() {
             if (leaderboardData[0][gridSize].length <= 0) return <></>;
 
             return (
-              <div>
+              <div key={`${gridSize}-${Math.random()}`}>
                 <h2>
                   Grid Size: {gridSize}X{gridSize}
                 </h2>
@@ -101,10 +101,10 @@ function Leaderboard() {
                   {leaderboardData[0][gridSize].map(
                     ({ rank, score, username }, index) => (
                       <LeaderboardItem
-                        key={index}
                         rank={rank}
                         score={score}
                         username={username}
+                        key={`${index}-${username}-${rank}-${score}-${gridSize}`}
                       />
                     )
                   )}
