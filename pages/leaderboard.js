@@ -63,21 +63,17 @@ function Leaderboard() {
     router.push("/");
   };
 
-  return (
-    <div className={`mainContainer ${styles.appContainer}`}>
-      <Header title={gameTitle} backButtonClickHandler={navigateBack} />
+  let mainDiv;
 
-      <div className={styles.illustration}>
-        <Image width={400} height={300} src={"/winners.svg"} />
+  if (!leaderboardData || leaderboardData.length < 0) {
+    mainDiv = (
+      <div className={styles.loading}>
+        <p>Loading...</p>
       </div>
-
-      {!leaderboardData && (
-        <div className={styles.loading}>
-          <p>Loading...</p>
-        </div>
-      )}
-
-      {!isTileMatch && leaderboardData && (
+    );
+  } else {
+    if (!isTileMatch) {
+      mainDiv = (
         <main className={styles.leaderboardContainer}>
           {leaderboardData.map(({ rank, score, username }, index) => (
             <LeaderboardItem
@@ -88,9 +84,9 @@ function Leaderboard() {
             />
           ))}
         </main>
-      )}
-
-      {isTileMatch && leaderboardData && (
+      );
+    } else {
+      mainDiv = (
         <main className={styles.leaderboardWrapper}>
           {Object.keys(leaderboardData[0]).map((gridSize) => {
             if (leaderboardData[0][gridSize].length <= 0) return <></>;
@@ -119,7 +115,19 @@ function Leaderboard() {
             );
           })}
         </main>
-      )}
+      );
+    }
+  }
+
+  return (
+    <div className={`mainContainer ${styles.appContainer}`}>
+      <Header title={gameTitle} backButtonClickHandler={navigateBack} />
+
+      <div className={styles.illustration}>
+        <Image width={400} height={300} src={"/winners.svg"} />
+      </div>
+
+      {mainDiv}
     </div>
   );
 }
