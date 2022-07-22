@@ -1,10 +1,8 @@
 import { useRouter } from "next/router";
 
-import Avatar from "boring-avatars";
-
 import { userService } from "services";
 
-import { Button, Card } from "components";
+import { Avatar, Button, Card } from "components";
 
 import { ALL_GAMES } from "/data";
 
@@ -47,14 +45,7 @@ function Home() {
     <div className={`mainContainer ${styles.homeContainer}`}>
       <header className={styles.header}>
         <div className={styles.left}>
-          <div className={styles.avatar}>
-            <Avatar
-              square={true}
-              variant={"beam"}
-              name={userService.userValue?.username}
-              colors={["#E9A6A6", "#864879", "#A7D0CD", "#B85252", "#3C415C"]}
-            />
-          </div>
+          <Avatar square={false} name={userService.userValue?.username} />
 
           <div className={styles.userInfo}>
             <span>Welcome,</span>

@@ -2,6 +2,7 @@ import Link from "./link/link";
 import Card from "./card/card";
 import Alert from "./alert/alert";
 import Input from "./input/input";
+import Avatar from "./avatar/avatar";
 import Button from "./button/button";
 import Header from "./header/header";
 import Layout from "./layout/layout";
@@ -14,6 +15,7 @@ export {
   Link,
   Alert,
   Input,
+  Avatar,
   Button,
   Header,
   Layout,

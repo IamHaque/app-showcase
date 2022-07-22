@@ -1,14 +1,6 @@
-import Avatar from "boring-avatars";
+import Avatar from "components/avatar/avatar";
 
 import styles from "./leaderboard-item.module.scss";
-
-const AVATAR_COLOR_PALETTE = [
-  "#E9A6A6",
-  "#864879",
-  "#A7D0CD",
-  "#B85252",
-  "#3C415C",
-];
 
 export default function LeaderboardItem({ rank, score, username }) {
   const getAddonClass = (rank) => {
@@ -19,13 +11,7 @@ export default function LeaderboardItem({ rank, score, username }) {
 
   return (
     <div className={`${getAddonClass(rank)} ${styles.leaderboardItem}`}>
-      <div className={styles.avatar}>
-        <Avatar
-          variant={"beam"}
-          name={username}
-          colors={AVATAR_COLOR_PALETTE}
-        />
-      </div>
+      <Avatar name={username} />
 
       <div className={styles.user}>
         <h4 className={styles.name}>{username}</h4>
