@@ -30,7 +30,11 @@ function Game() {
 
   useEffect(() => {
     // return to home page if no user of invalid game details
-    if (!userService.userValue || ALL_GAMES[gameIndex]?.title !== gameTitle) {
+    if (
+      !userService.userValue ||
+      !gameTitle ||
+      ALL_GAMES[gameIndex]?.title !== gameTitle
+    ) {
       router.push("/");
     }
   }, [router.isReady]);

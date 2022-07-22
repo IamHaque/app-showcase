@@ -2,7 +2,12 @@ import Avatar from "components/avatar/avatar";
 
 import styles from "./leaderboard-item.module.scss";
 
-export default function LeaderboardItem({ rank, score, username }) {
+export default function LeaderboardItem({
+  rank,
+  score,
+  username,
+  clickHandler,
+}) {
   const getAddonClass = (rank) => {
     if (rank === 1) return styles["winner"];
     if (rank === 2) return styles["runnerUp"];
@@ -10,7 +15,13 @@ export default function LeaderboardItem({ rank, score, username }) {
   };
 
   return (
-    <div className={`${getAddonClass(rank)} ${styles.leaderboardItem}`}>
+    <div
+      onClick={() => {
+        if (!clickHandler) return;
+        clickHandler(username);
+      }}
+      className={`${getAddonClass(rank)} ${styles.leaderboardItem}`}
+    >
       <Avatar name={username} />
 
       <div className={styles.user}>

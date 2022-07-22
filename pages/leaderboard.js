@@ -19,12 +19,17 @@ function Leaderboard() {
   const router = useRouter();
   const { gameTitle, gameIndex } = router.query;
 
+  const [isLoading, setIsLoading] = useState(true);
   const [isTileMatch, setIsTileMatch] = useState(false);
   const [leaderboardData, setLeaderboardData] = useState([]);
 
   useEffect(() => {
     // return to home page if no user of invalid game details
-    if (!userService.userValue || ALL_GAMES[gameIndex]?.title !== gameTitle) {
+    if (
+      !userService.userValue ||
+      !gameTitle ||
+      ALL_GAMES[gameIndex]?.title !== gameTitle
+    ) {
       router.push("/");
     }
 
@@ -56,68 +61,87 @@ function Leaderboard() {
         setLeaderboardData([data]);
         setIsTileMatch(true);
       }
+
+      setIsLoading(false);
     } catch (e) {}
+  };
+
+  const navigateToUserLeaderboard = (username) => {
+    router.push({
+      pathname: "/userLeaderboard",
+      query: {
+        username,
+      },
+    });
   };
 
   const navigateBack = () => {
     router.push("/");
   };
 
-  let mainDiv;
+  const generateLeaderboardItemCards = (data) => {
+    return data.map(({ rank, score, username }, index) => (
+      <LeaderboardItem
+        rank={rank}
+        score={score}
+        username={username}
+        clickHandler={navigateToUserLeaderboard}
+        key={`${index}-${username}-${rank}-${score}`}
+      />
+    ));
+  };
 
-  if (!leaderboardData || leaderboardData.length <= 0) {
-    mainDiv = (
-      <div className={styles.loading}>
-        <p>Loading...</p>
-      </div>
-    );
-  } else {
-    if (!isTileMatch) {
-      mainDiv = (
-        <main className={styles.leaderboardContainer}>
-          {leaderboardData.map(({ rank, score, username }, index) => (
-            <LeaderboardItem
-              rank={rank}
-              score={score}
-              username={username}
-              key={`${index}-${username}-${rank}-${score}`}
-            />
-          ))}
-        </main>
+  const generateMainDiv = () => {
+    // Show loading if data is being fetched
+    if (isLoading) {
+      return (
+        <div className={styles.loading}>
+          <p>Loading...</p>
+        </div>
       );
-    } else {
-      mainDiv = (
-        <main className={styles.leaderboardWrapper}>
-          {Object.keys(leaderboardData[0]).map((gridSize) => {
-            if (leaderboardData[0][gridSize].length <= 0) return <></>;
+    }
 
-            return (
-              <div key={`${gridSize}-${Math.random()}`}>
-                <h2>
-                  Grid Size: {gridSize}X{gridSize}
-                </h2>
+    // Show no data if leaderboard empty
+    if (!leaderboardData || leaderboardData.length <= 0) {
+      return (
+        <div className={styles.loading}>
+          <p>No leaderboard data!</p>
+        </div>
+      );
+    }
 
-                <div
-                  className={`${styles.noScroll} ${styles.leaderboardContainer}`}
-                >
-                  {leaderboardData[0][gridSize].map(
-                    ({ rank, score, username }, index) => (
-                      <LeaderboardItem
-                        rank={rank}
-                        score={score}
-                        username={username}
-                        key={`${index}-${username}-${rank}-${score}-${gridSize}`}
-                      />
-                    )
-                  )}
-                </div>
-              </div>
-            );
-          })}
+    // Other games leaderboard except Tile Match
+    if (!isTileMatch) {
+      return (
+        <main className={styles.leaderboardContainer}>
+          {generateLeaderboardItemCards(leaderboardData)}
         </main>
       );
     }
-  }
+
+    // Tile Match leaderboard
+    return (
+      <main className={styles.leaderboardWrapper}>
+        {Object.keys(leaderboardData[0]).map((gridSize) => {
+          if (leaderboardData[0][gridSize].length <= 0) return <></>;
+
+          return (
+            <div key={`${gridSize}-${Math.random()}`}>
+              <h2>
+                Grid Size: {gridSize}X{gridSize}
+              </h2>
+
+              <div
+                className={`${styles.noScroll} ${styles.leaderboardContainer}`}
+              >
+                {generateLeaderboardItemCards(leaderboardData[0][gridSize])}
+              </div>
+            </div>
+          );
+        })}
+      </main>
+    );
+  };
 
   return (
     <div className={`mainContainer ${styles.appContainer}`}>
@@ -127,7 +151,7 @@ function Leaderboard() {
         <Image width={400} height={300} src={"/winners.svg"} />
       </div>
 
-      {mainDiv}
+      {generateMainDiv()}
     </div>
   );
 }
