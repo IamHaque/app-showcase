@@ -1,9 +1,9 @@
 @use "/styles/utils" as *;
 
 .appContainer {
-  height: 100%;
   display: grid;
   margin: 0 auto;
+  min-height: 100%;
   max-width: 769px !important;
   grid-template-rows: 5rem min(20vh, 10rem) 1fr;
 }
@@ -21,7 +21,6 @@
   display: flex;
   padding: 3px 0;
   margin-top: 1.5em;
-  overflow-y: scroll;
   margin-bottom: 1.5em;
   flex-direction: column;
 
@@ -43,14 +42,12 @@
   display: flex;
   padding: 3px 0;
   margin-top: 1.5em;
-  overflow-y: scroll;
   margin-bottom: 1.5em;
   flex-direction: column;
 
   &.noScroll {
     margin: 0;
     padding: 0;
-    overflow-y: visible;
   }
 }
 
