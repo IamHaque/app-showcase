@@ -1,9 +1,13 @@
 @use "styles/utils.scss" as *;
 
 .leaderboardItem {
+  $gold: #e0d52e;
+  $silver: #c0c0c0;
+  $bronze: #cc7f3b;
+
   gap: 1.5em;
   display: grid;
-  margin: 0 2px;
+  margin: 0 3px;
   align-items: stretch;
   padding: 1.25em 1em;
   justify-content: center;
@@ -30,8 +34,8 @@
     }
 
     .score {
-      font-size: $fs-300;
       color: $gray-300;
+      font-size: $fs-400;
     }
   }
 
@@ -44,29 +48,23 @@
   }
 
   &.winner {
-    background-color: #fee020;
-
-    .rank,
-    .score {
-      color: hsl(52, 99%, 30%);
-    }
+    background-color: $gold;
+    color: darken($color: $gold, $amount: 25);
   }
 
   &.runnerUp {
-    background-color: #5b83c2;
-
-    .rank,
-    .score {
-      color: hsl(217, 46%, 30%);
-    }
+    background-color: $silver;
+    color: darken($color: $silver, $amount: 35);
   }
 
   &.thirdPlace {
-    background-color: #bfbebf;
+    background-color: $bronze;
+    color: darken($color: $bronze, $amount: 30);
+  }
 
-    .rank,
-    .score {
-      color: hsl(300, 1%, 45%);
-    }
+  &.winner .score,
+  &.runnerUp .score,
+  &.thirdPlace .score {
+    color: inherit;
   }
 }

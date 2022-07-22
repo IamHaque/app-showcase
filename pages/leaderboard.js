@@ -42,7 +42,12 @@ function Leaderboard() {
         const data = await gameService.getLeaderboard(gameTitle);
         if (!data || !data.leaderboard) return;
 
-        setLeaderboardData(data.leaderboard);
+        setLeaderboardData([
+          ...data.leaderboard,
+          { rank: 3, score: 3, username: "Abiha" },
+          { rank: 4, score: 2, username: "Asra" },
+          { rank: 5, score: 1, username: "Tweety" },
+        ]);
       } else {
         let data = {};
         for (let gridSize = 2; gridSize <= 8; gridSize += 2) {
@@ -65,7 +70,7 @@ function Leaderboard() {
 
   let mainDiv;
 
-  if (!leaderboardData || leaderboardData.length < 0) {
+  if (!leaderboardData || leaderboardData.length <= 0) {
     mainDiv = (
       <div className={styles.loading}>
         <p>Loading...</p>

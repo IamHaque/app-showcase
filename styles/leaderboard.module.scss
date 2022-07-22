@@ -19,30 +19,32 @@
 .leaderboardWrapper {
   gap: 2.5em;
   display: flex;
+  padding: 3px 0;
   margin-top: 1.5em;
   overflow-y: scroll;
   margin-bottom: 1.5em;
-  padding-bottom: 1.5em;
   flex-direction: column;
 
   h2 {
+    color: $gray-300;
     font-size: $fs-300;
     text-align: center;
-    color: $neutral-600;
+    letter-spacing: 3px;
+    margin: 0 3px 0.75em;
     padding: 1.1em 0 1em;
-    margin-bottom: 0.5em;
-    font-weight: $fw-semi-bold;
-    background-color: $neutral-400;
+    font-weight: $fw-medium;
+    text-transform: uppercase;
+    background-color: $gray-100;
   }
 }
 
 .leaderboardContainer {
   gap: 1em;
   display: flex;
+  padding: 3px 0;
   margin-top: 1.5em;
   overflow-y: scroll;
   margin-bottom: 1.5em;
-  padding-bottom: 1.5em;
   flex-direction: column;
 
   &.noScroll {

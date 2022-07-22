@@ -10,8 +10,8 @@
   .backButton {
     width: 2.5em;
     height: 2.5em;
-    padding: 0.5em;
     cursor: pointer;
+    padding: 0.5em 1em 0.5em 0;
 
     & > * {
       width: 100% !important;
