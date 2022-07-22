@@ -138,7 +138,7 @@ function UserLeaderboard() {
       <Header title={username} backButtonClickHandler={navigateBack} />
 
       <div className={styles.illustration}>
-        <Image width={400} height={300} src={"/winners.svg"} />
+        <Image width={400} height={300} src={"/badge.svg"} />
       </div>
 
       {generateMainDiv()}
