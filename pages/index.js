@@ -48,7 +48,7 @@ function Home() {
           <Avatar
             square={false}
             name={userService.userValue?.username}
-            style={{ maxHeight: "100%", maxWidth: "100%" }}
+            style={{ height: "auto", width: "auto" }}
           />
 
           <div className={styles.userInfo}>

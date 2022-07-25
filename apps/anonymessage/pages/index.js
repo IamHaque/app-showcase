@@ -253,11 +253,7 @@ function AnonymessageHome() {
 
       <div className={styles.userWrapper}>
         <div className={styles.left}>
-          <Avatar
-            square={false}
-            name={username}
-            style={{ maxHeight: "100%", maxWidth: "100%" }}
-          />
+          <Avatar square={false} name={username} />
         </div>
 
         <div className={styles.right}>
