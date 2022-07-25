@@ -10,9 +10,10 @@ const AVATAR_COLOR_PALETTE = [
   "#3C415C",
 ];
 
-export default function Avatar({ name, square }) {
+export default function Avatar({ name, square, style }) {
+  console.log(style);
   return (
-    <div className={styles.avatar}>
+    <div className={styles.avatar} style={style}>
       <ImageAvatar
         name={name}
         variant={"beam"}

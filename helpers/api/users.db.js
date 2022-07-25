@@ -13,18 +13,9 @@ export const usersRepo = {
   deleteMessage,
   getByUsername,
   delete: _delete,
-  createAllForApp,
   sendMessageToUser,
   getByUsernameAndApp,
 };
-
-async function createAllForApp(username) {
-  await prisma.anonymessageUser.create({
-    data: {
-      username,
-    },
-  });
-}
 
 async function create({ name, username, password }) {
   await prisma.anonymessageUser.create({

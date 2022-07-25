@@ -45,7 +45,11 @@ function Home() {
     <div className={`mainContainer ${styles.homeContainer}`}>
       <header className={styles.header}>
         <div className={styles.left}>
-          <Avatar square={false} name={userService.userValue?.username} />
+          <Avatar
+            square={false}
+            name={userService.userValue?.username}
+            style={{ maxHeight: "100%", maxWidth: "100%" }}
+          />
 
           <div className={styles.userInfo}>
             <span>Welcome,</span>
@@ -68,18 +72,18 @@ function Home() {
       </header>
 
       <main className={styles.appsContainer}>
-        {[...ALL_APPS].splice(1).map(({ title, img, type, desc }, index) => (
+        {ALL_APPS.map(({ title, img, type, desc }, index) => (
           <AppCard
             img={img}
-            key={index + 1}
+            key={index}
             desc={desc}
             type={type}
             title={title}
             buttonOneClickHandler={() => {
-              startApp(index + 1);
+              startApp(index);
             }}
             buttonTwoClickHandler={() => {
-              openLeaderboard(index + 1);
+              openLeaderboard(index);
             }}
           />
         ))}
