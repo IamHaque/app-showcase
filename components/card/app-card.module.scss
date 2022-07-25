@@ -1,0 +1,63 @@
+@use "styles/utils.scss" as *;
+
+.app {
+  padding: 1em;
+  display: flex;
+  overflow: hidden;
+  color: $light-fg;
+  position: relative;
+  border-radius: 20px;
+  aspect-ratio: 9 / 16;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  box-shadow: 0 10px 10px -5px #00000080;
+
+  .appImage {
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    position: absolute;
+    filter: brightness(0.5) blur(1px);
+  }
+
+  .appInfo {
+    z-index: 10;
+    margin: -1em;
+    padding: 1em 2em 2em;
+    background-image: linear-gradient(#0000, #000 30%);
+
+    .appTitle {
+      font-size: $fs-800;
+      margin-bottom: 0.5em;
+      font-weight: $fw-bold;
+    }
+
+    .appDesc {
+      color: $gray-300;
+      font-size: $fs-300;
+      margin-bottom: 2em;
+      line-height: 1.75em;
+      font-weight: $fw-regular;
+    }
+  }
+}
+
+.buttons {
+  gap: 1em;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+@media screen and (max-width: 321px) {
+  .appDesc {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 321px) {
+  .appTitle {
+    margin-bottom: 1em !important;
+    font-size: $fs-500 !important;
+  }
+}

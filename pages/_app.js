@@ -50,7 +50,7 @@ function MyApp({ Component, pageProps }) {
     // redirect to login page if accessing a private page and not logged in
     setUser(userService.userValue);
 
-    const publicPaths = ["/login", "/signup"];
+    const publicPaths = ["/login", "/signup", "/u/[username]"];
     const path = url.split("?")[0];
 
     if (userService.userValue || publicPaths.includes(path)) {

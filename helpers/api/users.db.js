@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 
-import { ALL_GAMES } from "data";
+import { appType } from "helpers";
 
 const prisma = new PrismaClient();
 
@@ -9,13 +9,21 @@ export const usersRepo = {
   update,
   getAll,
   updateScore,
-  getAllByGame,
+  getAllByApp,
+  deleteMessage,
   getByUsername,
   delete: _delete,
-  getByUsernameAndGame,
+  sendMessageToUser,
+  getByUsernameAndApp,
 };
 
 async function create({ name, username, password }) {
+  await prisma.anonymessageUser.create({
+    data: {
+      username,
+    },
+  });
+
   await prisma.user.create({
     data: {
       name,
@@ -40,6 +48,12 @@ async function create({ name, username, password }) {
       score8x8: 0,
     },
   });
+
+  await prisma.anonymessageUser.create({
+    data: {
+      username,
+    },
+  });
 }
 
 async function getAll() {
@@ -56,9 +70,9 @@ async function getByUsername(username) {
   return user;
 }
 
-async function getByUsernameAndGame(username, gameTitle) {
+async function getByUsernameAndApp(username, appTitle) {
   // Jumpy Dino
-  if (gameTitle === ALL_GAMES[0].title) {
+  if (appType.isJumpyDino(appTitle)) {
     return await prisma.jumpyDinoUser.findUnique({
       where: {
         username: username,
@@ -67,25 +81,43 @@ async function getByUsernameAndGame(username, gameTitle) {
   }
 
   // Tile Match
-  if (gameTitle === ALL_GAMES[1].title) {
+  if (appType.isTileMatch(appTitle)) {
     return await prisma.tileMatchUser.findUnique({
       where: {
         username: username,
       },
     });
   }
+
+  // Anonymessage
+  if (appType.isAnonymessage(appTitle)) {
+    return await prisma.anonymessageUser.findUnique({
+      where: {
+        username: username,
+      },
+      include: {
+        messages: true, // All messages for current user
+      },
+    });
+  }
+
+  // Invalid appTitle
+  return;
 }
 
-async function getAllByGame(gameTitle) {
+async function getAllByApp(appTitle) {
   // Jumpy Dino
-  if (gameTitle === ALL_GAMES[0].title) {
+  if (appType.isJumpyDino(appTitle)) {
     return await prisma.jumpyDinoUser.findMany();
   }
 
   // Tile Match
-  if (gameTitle === ALL_GAMES[1].title) {
+  if (appType.isTileMatch(appTitle)) {
     return await prisma.tileMatchUser.findMany();
   }
+
+  // Invalid appTitle
+  return;
 }
 
 async function update(username, params) {
@@ -97,9 +129,9 @@ async function update(username, params) {
   });
 }
 
-async function updateScore(username, gameTitle, score) {
+async function updateScore(username, appTitle, score) {
   // Jumpy Dino
-  if (gameTitle === ALL_GAMES[0].title) {
+  if (appType.isJumpyDino(appTitle)) {
     await prisma.jumpyDinoUser.update({
       where: {
         username: username,
@@ -109,7 +141,7 @@ async function updateScore(username, gameTitle, score) {
   }
 
   // Tile Match
-  else if (gameTitle === ALL_GAMES[1].title) {
+  else if (appType.isTileMatch(appTitle)) {
     await prisma.tileMatchUser.update({
       where: {
         username: username,
@@ -117,12 +149,49 @@ async function updateScore(username, gameTitle, score) {
       data: score,
     });
   }
+
+  // Invalid appTitle
+  return;
+}
+
+async function sendMessageToUser(appTitle, recipient, message, sender) {
+  // Invalid appTitle
+  if (!appType.isAnonymessage(appTitle)) return;
+
+  // Anonymessage
+  await prisma.anonymessageUser.update({
+    where: {
+      username: recipient,
+    },
+    data: {
+      messages: {
+        create: [
+          {
+            sender: sender,
+            message: message,
+          },
+        ],
+      },
+    },
+  });
 }
 
 async function _delete(username) {
   await prisma.user.delete({
     where: {
       username: username,
+    },
+  });
+}
+
+async function deleteMessage(messageId, appTitle) {
+  // Invalid appTitle
+  if (!appType.isAnonymessage(appTitle)) return;
+
+  // Anonymessage
+  await prisma.anonymessageMessage.delete({
+    where: {
+      id: messageId,
     },
   });
 }

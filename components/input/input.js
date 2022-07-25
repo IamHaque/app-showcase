@@ -6,6 +6,7 @@ export default function Input({
   value,
   label,
   errors,
+  textarea,
   leftIcon,
   rightIcon,
   placeholder,
@@ -13,12 +14,20 @@ export default function Input({
 }) {
   const inputInvalid = errors[name] ? true : false;
 
-  return (
-    <div className={styles.inputWrapper}>
-      <label className={styles.label} htmlFor={name}>
-        {label}
-      </label>
+  let input = (
+    <textarea
+      rows="8"
+      id={name}
+      {...value}
+      name={name}
+      autoComplete="off"
+      placeholder={placeholder}
+      className={`${styles.textarea} ${inputInvalid ? styles.invalid : ""}`}
+    ></textarea>
+  );
 
+  if (!textarea) {
+    input = (
       <div
         className={`${styles.inputWithIcons} ${
           inputInvalid ? styles.invalid : ""
@@ -49,6 +58,16 @@ export default function Input({
           ></span>
         )}
       </div>
+    );
+  }
+
+  return (
+    <div className={styles.inputWrapper}>
+      <label className={styles.label} htmlFor={name}>
+        {label}
+      </label>
+
+      {input}
 
       {inputInvalid && (
         <div className={styles.errors}>{errors[name]?.message}</div>

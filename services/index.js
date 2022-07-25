@@ -1,5 +1,5 @@
-import { gameService } from "./game.service";
+import { appService } from "./app.service";
 import { userService } from "./user.service";
 import { alertService, AlertType } from "./alert.service";
 
-export { gameService, userService, alertService, AlertType };
+export { appService, userService, alertService, AlertType };

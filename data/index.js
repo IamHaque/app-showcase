@@ -1,3 +1,3 @@
-import { ALL_GAMES } from "/data/games";
+import { ALL_APPS } from "/data/apps";
 
-export { ALL_GAMES };
+export { ALL_APPS };

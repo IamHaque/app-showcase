@@ -3,9 +3,10 @@ import { useRouter } from "next/router";
 
 import { useState, useEffect } from "react";
 
-import { gameService, userService } from "services";
+import { appService, userService } from "services";
 
-import { ALL_GAMES } from "data";
+import { appType } from "helpers";
+import { ALL_APPS } from "data";
 
 import { Header, LeaderboardItem } from "components";
 
@@ -17,53 +18,55 @@ function Leaderboard() {
   let hasFetched = false;
 
   const router = useRouter();
-  const { gameTitle, gameIndex } = router.query;
+  const { appTitle, appIndex } = router.query;
 
   const [isLoading, setIsLoading] = useState(true);
   const [isTileMatch, setIsTileMatch] = useState(false);
   const [leaderboardData, setLeaderboardData] = useState([]);
 
   useEffect(() => {
-    // return to home page if no user of invalid game details
+    // return to home page if no user of invalid app details
     if (
       !userService.userValue ||
-      !gameTitle ||
-      ALL_GAMES[gameIndex]?.title !== gameTitle
+      !appTitle ||
+      ALL_APPS[appIndex]?.title !== appTitle
     ) {
       router.push("/");
     }
 
-    // fetch leaderboard data for gameTitle
-    fetchData(gameTitle === ALL_GAMES[1].title);
+    // fetch leaderboard data for appTitle
+    fetchData(appType.isTileMatch(appTitle));
 
     return () => (hasFetched = true);
   }, [router.isReady]);
 
-  const fetchData = async (isGameTileMatch) => {
-    try {
-      if (!gameTitle || hasFetched) return;
+  const fetchData = async (isAppTileMatch) => {
+    if (!appTitle || hasFetched) return;
 
-      if (!isGameTileMatch) {
-        const data = await gameService.getLeaderboard(gameTitle);
+    if (!isAppTileMatch) {
+      try {
+        const data = await appService.getLeaderboard(appTitle);
         if (!data || !data.leaderboard) return;
 
         setLeaderboardData(data.leaderboard);
-      } else {
-        let data = {};
-        for (let gridSize = 2; gridSize <= 8; gridSize += 2) {
-          const lbGridData = await gameService.getLeaderboard(
-            gameTitle,
+      } catch (e) {}
+    } else {
+      let data = {};
+      for (let gridSize = 2; gridSize <= 8; gridSize += 2) {
+        try {
+          const lbGridData = await appService.getLeaderboard(
+            appTitle,
             gridSize
           );
           data[gridSize] =
             lbGridData && lbGridData.leaderboard ? lbGridData.leaderboard : [];
-        }
-        setLeaderboardData([data]);
-        setIsTileMatch(true);
+        } catch (e) {}
       }
+      setLeaderboardData([data]);
+      setIsTileMatch(true);
+    }
 
-      setIsLoading(false);
-    } catch (e) {}
+    setIsLoading(false);
   };
 
   const navigateToUserLeaderboard = (username) => {
@@ -110,7 +113,7 @@ function Leaderboard() {
       );
     }
 
-    // Other games leaderboard except Tile Match
+    // Other apps leaderboard except Tile Match
     if (!isTileMatch) {
       return (
         <main className={styles.leaderboardContainer}>
@@ -123,7 +126,7 @@ function Leaderboard() {
     return (
       <main className={styles.leaderboardWrapper}>
         {Object.keys(leaderboardData[0]).map((gridSize) => {
-          if (leaderboardData[0][gridSize].length <= 0) return <></>;
+          if (leaderboardData[0][gridSize].length <= 0) return;
 
           return (
             <div key={`${gridSize}-${Math.random()}`}>
@@ -145,7 +148,7 @@ function Leaderboard() {
 
   return (
     <div className={`mainContainer ${styles.appContainer}`}>
-      <Header title={gameTitle} backButtonClickHandler={navigateBack} />
+      <Header title={appTitle} backButtonClickHandler={navigateBack} />
 
       <div className={styles.illustration}>
         <Image width={400} height={300} src={"/winners.svg"} />

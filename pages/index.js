@@ -2,9 +2,9 @@ import { useRouter } from "next/router";
 
 import { userService } from "services";
 
-import { Avatar, Button, Card } from "components";
+import { Avatar, Button, AppCard } from "components";
 
-import { ALL_GAMES } from "/data";
+import { ALL_APPS } from "/data";
 
 import styles from "styles/home.module.scss";
 
@@ -13,30 +13,30 @@ export default Home;
 function Home() {
   const router = useRouter();
 
-  function playGame(gameIndex) {
-    if (gameIndex < 0 || gameIndex >= ALL_GAMES.length) return;
+  function startApp(appIndex) {
+    if (appIndex < 0 || appIndex >= ALL_APPS.length) return;
 
-    const gameTitle = ALL_GAMES[gameIndex].title;
+    const appTitle = ALL_APPS[appIndex].title;
 
     router.push({
-      pathname: "/game",
+      pathname: "/app",
       query: {
-        gameTitle,
-        gameIndex,
+        appTitle,
+        appIndex,
       },
     });
   }
 
-  function openLeaderboard(gameIndex) {
-    if (gameIndex < 0 || gameIndex >= ALL_GAMES.length) return;
+  function openLeaderboard(appIndex) {
+    if (appIndex < 0 || appIndex >= ALL_APPS.length) return;
 
-    const gameTitle = ALL_GAMES[gameIndex].title;
+    const appTitle = ALL_APPS[appIndex].title;
 
     router.push({
       pathname: "/leaderboard",
       query: {
-        gameTitle,
-        gameIndex,
+        appTitle,
+        appIndex,
       },
     });
   }
@@ -67,15 +67,16 @@ function Home() {
         </div>
       </header>
 
-      <main className={styles.gamesContainer}>
-        {ALL_GAMES.map(({ title, img, desc }, index) => (
-          <Card
+      <main className={styles.appsContainer}>
+        {[...ALL_APPS].splice(1).map(({ title, img, type, desc }, index) => (
+          <AppCard
             img={img}
             key={index}
             desc={desc}
+            type={type}
             title={title}
             buttonOneClickHandler={() => {
-              playGame(index);
+              startApp(index);
             }}
             buttonTwoClickHandler={() => {
               openLeaderboard(index);

@@ -3,9 +3,10 @@ import { useRouter } from "next/router";
 
 import { useState, useEffect } from "react";
 
-import { gameService, userService } from "services";
+import { appService, userService } from "services";
 
-import { ALL_GAMES } from "data";
+import { appType } from "helpers";
+import { ALL_APPS } from "data";
 
 import { Header, LeaderboardItem } from "components";
 
@@ -35,16 +36,16 @@ function UserLeaderboard() {
   }, [router.isReady]);
 
   const fetchData = async () => {
-    try {
-      if (!username || hasFetched) return;
+    if (!username || hasFetched) return;
 
-      const userLBData = [];
+    const userLBData = [];
 
-      for (let GAME of ALL_GAMES) {
-        const gameTitle = GAME.title;
+    for (let APP of ALL_APPS) {
+      const appTitle = APP.title;
 
-        if (gameTitle !== ALL_GAMES[1].title) {
-          const data = await gameService.getLeaderboard(gameTitle);
+      if (!appType.isTileMatch(appTitle)) {
+        try {
+          const data = await appService.getLeaderboard(appTitle);
           if (!data || !data.leaderboard) continue;
 
           const leaderboardInfo = data.leaderboard.filter(
@@ -53,16 +54,18 @@ function UserLeaderboard() {
           if (!leaderboardInfo) continue;
 
           userLBData.push({
-            gameTitle,
+            appTitle,
             leaderboardInfo,
           });
+        } catch (e) {}
 
-          continue;
-        }
+        continue;
+      }
 
-        for (let gridSize = 2; gridSize <= 8; gridSize += 2) {
-          const lbGridData = await gameService.getLeaderboard(
-            gameTitle,
+      for (let gridSize = 2; gridSize <= 8; gridSize += 2) {
+        try {
+          const lbGridData = await appService.getLeaderboard(
+            appTitle,
             gridSize
           );
           if (!lbGridData || !lbGridData.leaderboard) continue;
@@ -74,14 +77,14 @@ function UserLeaderboard() {
 
           userLBData.push({
             leaderboardInfo,
-            gameTitle: `${gameTitle} | Grid: ${gridSize}X${gridSize}`,
+            appTitle: `${appTitle} | Grid: ${gridSize}X${gridSize}`,
           });
-        }
+        } catch (e) {}
       }
+    }
 
-      setLeaderboardData(userLBData);
-      setIsLoading(false);
-    } catch (e) {}
+    setLeaderboardData(userLBData);
+    setIsLoading(false);
   };
 
   const navigateBack = () => {
@@ -113,7 +116,7 @@ function UserLeaderboard() {
         {leaderboardData.map((gameLeaderboard, index) => {
           return (
             <div key={`${index}-${Math.random()}`}>
-              <h2>{gameLeaderboard.gameTitle}</h2>
+              <h2>{gameLeaderboard.appTitle}</h2>
 
               <div
                 className={`${styles.noScroll} ${styles.leaderboardContainer}`}

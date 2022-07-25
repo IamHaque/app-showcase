@@ -1,3 +1,4 @@
+import { appType } from "./appType";
 import { fetchWrapper } from "./fetch-wrapper";
 
-export { fetchWrapper };
+export { appType, fetchWrapper };

@@ -36,7 +36,7 @@
   }
 }
 
-.gamesContainer {
+.appsContainer {
   gap: 1.5em;
   display: grid;
   padding-bottom: 1.5em;
@@ -44,7 +44,7 @@
 }
 
 @media screen and (max-width: 720px) {
-  .gamesContainer {
+  .appsContainer {
     grid-template-columns: 1fr;
   }
 }

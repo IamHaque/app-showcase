@@ -5,6 +5,7 @@
   left: 0;
   right: 0;
   padding: 1em;
+  z-index: 1000;
   display: flex;
   position: absolute;
   pointer-events: none;
@@ -36,7 +37,7 @@
       }
 
       .alertMessage {
-        color: $gray-300;
+        color: $gray-500;
       }
     }
 

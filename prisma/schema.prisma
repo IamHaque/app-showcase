@@ -8,8 +8,6 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  // provider = "sqlite"
-  // url      = "file:./dev.db"
 }
 
 
@@ -39,4 +37,21 @@ model TileMatchUser {
   updatedAt   DateTime    @updatedAt
   createdAt   DateTime    @default(now())
   id          String      @id @default(uuid())
+}
+
+model AnonymessageUser {
+  messages    AnonymessageMessage[]
+  username    String      @unique
+  updatedAt   DateTime    @updatedAt
+  createdAt   DateTime    @default(now())
+  id          String      @id @default(uuid())
+}
+
+model AnonymessageMessage {
+  recipientId   String
+  message       String
+  sender        String
+  createdAt     DateTime          @default(now())
+  id            String            @id @default(uuid())
+  recipient     AnonymessageUser  @relation(fields: [recipientId], references: [id])
 }
