@@ -88,9 +88,6 @@ function AnonymessageHome() {
         })
         .then(() => {
           alertService.info("Sharing dialog opened");
-        })
-        .catch((e) => {
-          alertService.error("Error sharing link");
         });
     }
     // Fallback
@@ -101,6 +98,7 @@ function AnonymessageHome() {
           alertService.info("Link copied to clipboard");
         })
         .catch((e) => {
+          console.log(e);
           alertService.error("Error copying link");
         });
     }
