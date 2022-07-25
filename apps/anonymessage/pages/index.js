@@ -106,7 +106,9 @@ function AnonymessageHome() {
   const shareURL = (to) => {
     const profileUrl = `${appService
       .getBaseUrl()
-      .replace("/api", "")}/u/${username}`;
+      .replace("/api", "")}/u/${encodeURIComponent(
+      username.replace(" ", "%20")
+    )}`;
 
     if (to === "whatsapp") {
       const whatsappUrl = "https://api.whatsapp.com/send";
