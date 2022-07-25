@@ -11,7 +11,6 @@ const AVATAR_COLOR_PALETTE = [
 ];
 
 export default function Avatar({ name, square, style }) {
-  console.log(style);
   return (
     <div className={styles.avatar} style={style}>
       <ImageAvatar

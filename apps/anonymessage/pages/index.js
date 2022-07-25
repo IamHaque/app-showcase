@@ -97,8 +97,7 @@ function AnonymessageHome() {
         .then(() => {
           alertService.info("Link copied to clipboard");
         })
-        .catch((e) => {
-          console.log(e);
+        .catch((_) => {
           alertService.error("Error copying link");
         });
     }
