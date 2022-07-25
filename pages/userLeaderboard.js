@@ -43,6 +43,9 @@ function UserLeaderboard() {
     for (let APP of ALL_APPS) {
       const appTitle = APP.title;
 
+      // continue if app is not game
+      if (appType.isApp(appTitle)) continue;
+
       if (!appType.isTileMatch(appTitle)) {
         try {
           const data = await appService.getLeaderboard(appTitle);
