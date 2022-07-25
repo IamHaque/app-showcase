@@ -71,15 +71,15 @@ function Home() {
         {[...ALL_APPS].splice(1).map(({ title, img, type, desc }, index) => (
           <AppCard
             img={img}
-            key={index}
+            key={index + 1}
             desc={desc}
             type={type}
             title={title}
             buttonOneClickHandler={() => {
-              startApp(index);
+              startApp(index + 1);
             }}
             buttonTwoClickHandler={() => {
-              openLeaderboard(index);
+              openLeaderboard(index + 1);
             }}
           />
         ))}
