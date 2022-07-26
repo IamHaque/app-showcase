@@ -34,8 +34,8 @@ async function getByUsernameAndApp(req, res) {
   // # Anonymessage
   if (appType.isAnonymessage(appTitle)) {
     // Return the messages for the user
-    const messages = user.messages
-      .map(({ id, reply, message, isPublic, createdAt }) => {
+    const messages = user.messages.map(
+      ({ id, reply, message, isPublic, createdAt }) => {
         return {
           reply,
           message,
@@ -44,8 +44,8 @@ async function getByUsernameAndApp(req, res) {
           time: createdAt,
           from: "Anonymous",
         };
-      })
-      .reverse();
+      }
+    );
     return res.status(200).json({ status: "success", messages });
   }
 

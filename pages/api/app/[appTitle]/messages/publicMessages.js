@@ -35,8 +35,7 @@ async function getPublicMessages(req, res) {
           time: createdAt,
           from: "Anonymous",
         };
-      })
-      .reverse();
+      });
     return res.status(200).json({ status: "success", messages });
   }
 

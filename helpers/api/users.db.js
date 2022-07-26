@@ -91,7 +91,13 @@ async function getByUsernameAndApp(username, appTitle) {
         username: username,
       },
       include: {
-        messages: true, // All messages for current user
+        messages: {
+          orderBy: [
+            {
+              createdAt: "desc",
+            },
+          ],
+        }, // All messages for current user
       },
     });
   }
