@@ -1,11 +1,19 @@
 import { useRouter } from "next/router";
 
+import { useEffect, useState } from "react";
+
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en";
+
 import { appService, userService, alertService } from "services";
 
+import { appType } from "helpers";
+
+import MessageCard from "../components/message-card";
 import { Link, Input, Button } from "components";
 
 import styles from "../styles/sendMessage.module.scss";
@@ -13,7 +21,13 @@ import styles from "../styles/sendMessage.module.scss";
 export default AnonymessageSendMessage;
 
 function AnonymessageSendMessage({ recipient }) {
+  let hasFetched = false;
+  let timeAgo;
+
   const router = useRouter();
+
+  const [messages, setMessages] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   // form validation rules
   const validationSchema = Yup.object().shape({
@@ -24,6 +38,15 @@ function AnonymessageSendMessage({ recipient }) {
   // get functions to build form with useForm() hook
   const { register, handleSubmit, formState } = useForm(formOptions);
   const { errors } = formState;
+
+  useEffect(() => {
+    if (!router.isReady) return;
+
+    // fetch messages for user
+    fetchData();
+
+    return () => (hasFetched = true);
+  }, [router.isReady]);
 
   function onSubmit({ message }) {
     const loggedInUser = userService.userValue?.username;
@@ -51,6 +74,72 @@ function AnonymessageSendMessage({ recipient }) {
       })
       .catch(alertService.error);
   }
+
+  const fetchData = async () => {
+    if (hasFetched) return;
+
+    try {
+      if (!timeAgo) {
+        TimeAgo.addLocale(en);
+        timeAgo = new TimeAgo("en-US");
+      }
+    } catch (e) {}
+
+    try {
+      const data = await appService.getPublicMessages({
+        username: recipient,
+        isPublic: true,
+      });
+
+      if (data && data.status === "success" && data.messages) {
+        const userMessages = data.messages.map((message) => {
+          return {
+            ...message,
+            time: timeAgo.format(new Date(message.time)),
+          };
+        });
+        setMessages(userMessages);
+      }
+    } catch (e) {}
+
+    setIsLoading(false);
+  };
+
+  const generateMainDiv = () => {
+    if (isLoading) {
+      return (
+        <div className={styles.emptyMessagesContainer}>
+          <h3>Loading public messages...</h3>
+        </div>
+      );
+    }
+
+    if (!messages || messages.length <= 0) {
+      return <></>;
+    }
+
+    return (
+      <>
+        <h2>
+          Public Messages <strong>{recipient}</strong> has received
+        </h2>
+
+        <div className={styles.messagesContainer}>
+          {messages.map(({ time, from, reply, message }, index) => {
+            return (
+              <MessageCard
+                time={time}
+                from={from}
+                reply={reply}
+                key={index}
+                message={message}
+              />
+            );
+          })}
+        </div>
+      </>
+    );
+  };
 
   return (
     <div className={`mainContainer ${styles.messageContainer} `}>
@@ -80,6 +169,8 @@ function AnonymessageSendMessage({ recipient }) {
           <Link text="Sign Up" href="/signup" />
         </div>
       </div>
+
+      <div className={styles.publicMessagesContainer}>{generateMainDiv()}</div>
     </div>
   );
 }

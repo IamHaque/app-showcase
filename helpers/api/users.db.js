@@ -11,6 +11,7 @@ export const usersRepo = {
   updateScore,
   getAllByApp,
   deleteMessage,
+  updateMessage,
   getByUsername,
   delete: _delete,
   sendMessageToUser,
@@ -146,6 +147,19 @@ async function updateScore(username, appTitle, score) {
 
   // Invalid appTitle
   return;
+}
+
+async function updateMessage(messageId, appTitle, params) {
+  // Invalid appTitle
+  if (!appType.isAnonymessage(appTitle)) return;
+
+  // Anonymessage
+  await prisma.anonymessageMessage.update({
+    where: {
+      id: messageId,
+    },
+    data: params,
+  });
 }
 
 async function sendMessageToUser(appTitle, recipient, message, sender) {

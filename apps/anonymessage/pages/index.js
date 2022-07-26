@@ -1,27 +1,22 @@
 import { useRouter } from "next/router";
 
-import { useEffect, useRef, useState } from "react";
-
-import html2canvas from "html2canvas";
+import { useEffect, useState } from "react";
 
 import { faWhatsapp, faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faShare,
-  faTrashCan,
-  faShareAlt,
-  faClockFour,
-} from "@fortawesome/free-solid-svg-icons";
+import { faShareAlt } from "@fortawesome/free-solid-svg-icons";
 
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
 
 import { alertService, appService, userService } from "services";
 
+import { appType } from "helpers";
+
+import MessageCard from "../components/message-card";
 import { Avatar } from "components";
 
 import styles from "../styles/home.module.scss";
-import { appType } from "helpers";
 
 export default AnonymessageHome;
 
@@ -33,7 +28,6 @@ function AnonymessageHome() {
   const router = useRouter();
   const { appTitle } = router.query;
 
-  const messagesRef = useRef([]);
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -82,7 +76,6 @@ function AnonymessageHome() {
           };
         });
         setMessages(userMessages);
-        messagesRef.current = messagesRef.current.slice(0, userMessages.length);
       }
     } catch (e) {}
 
@@ -178,35 +171,28 @@ function AnonymessageHome() {
         (message) => message.messageId !== messageId
       );
       setMessages(updatedMessages);
-      messagesRef.current = messagesRef.current.slice(
-        0,
-        updatedMessages.length
-      );
     } catch (e) {
       alertService.error("Failed to delete message");
     }
   };
 
-  const shareMessage = async (index) => {
-    if (messagesRef.current[index] === null) return;
+  const toggleVisibility = async (messageId, isPublic) => {
+    try {
+      await appService.updateMessage(messageId, { isPublic });
 
-    html2canvas(messagesRef.current[index])
-      .then((canvas) => {
-        const data = canvas.toDataURL("image/jpg");
-        const link = document.createElement("a");
+      alertService.success(
+        `Message marked as ${isPublic ? "public" : "private"}`
+      );
 
-        if (typeof link.download === "string") {
-          link.href = data;
-          link.download = "AnonymessageMessage.jpg";
-
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-        } else {
-          alertService.error("Error sharing the message!");
-        }
-      })
-      .catch((_) => alertService.error("Error sharing the message!"));
+      const updatedMessages = messages.map((message) =>
+        message.messageId !== messageId
+          ? message
+          : { ...message, isPublic: isPublic }
+      );
+      setMessages(updatedMessages);
+    } catch (e) {
+      alertService.error("Error toggling message state");
+    }
   };
 
   const generateMainDiv = () => {
@@ -237,52 +223,24 @@ function AnonymessageHome() {
         <h2>All Messages ({messages.length})</h2>
 
         <div className={styles.messagesContainer}>
-          {messages.map(({ time, from, message, messageId }, index) => {
-            return (
-              <div
-                key={messageId}
-                className={styles.message}
-                ref={(el) => (messagesRef.current[index] = el)}
-              >
-                <p className={styles.messageFrom}>-{from}</p>
-
-                <p className={styles.messageText}>{message}</p>
-
-                <div className={styles.bottom}>
-                  <p className={styles.messageTime}>
-                    <span className={styles.clockIcon}>
-                      <FontAwesomeIcon icon={faClockFour} />
-                    </span>
-                    <span className={styles.timeAgo}>{time}</span>
-                  </p>
-
-                  <div className={styles.actionButtons}>
-                    <button
-                      className={`${styles.actionButton} ${styles.share}`}
-                      onClick={() => {
-                        shareMessage(index);
-                      }}
-                    >
-                      <span>
-                        <FontAwesomeIcon icon={faShare} />
-                      </span>
-                    </button>
-
-                    <button
-                      className={`${styles.actionButton} ${styles.trash}`}
-                      onClick={() => {
-                        deleteMessage(messageId);
-                      }}
-                    >
-                      <span>
-                        <FontAwesomeIcon icon={faTrashCan} />
-                      </span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+          {messages.map(
+            ({ time, from, reply, message, isPublic, messageId }, index) => {
+              return (
+                <MessageCard
+                  time={time}
+                  from={from}
+                  reply={reply}
+                  key={messageId}
+                  viewOnly={false}
+                  message={message}
+                  isPublic={isPublic}
+                  messageId={messageId}
+                  deleteMessageHandler={deleteMessage}
+                  toggleVisibilityHandler={toggleVisibility}
+                />
+              );
+            }
+          )}
         </div>
       </>
     );

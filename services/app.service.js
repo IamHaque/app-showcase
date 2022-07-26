@@ -25,7 +25,9 @@ export const appService = {
   updateScore,
   getUserScore,
   deleteMessage,
+  updateMessage,
   getLeaderboard,
+  getPublicMessages,
 };
 
 function getBaseUrl() {
@@ -52,6 +54,13 @@ function getMessages(username) {
   return fetchWrapper.get(`${baseUrl}/Anonymessage/${username}`);
 }
 
+function getPublicMessages(params) {
+  return fetchWrapper.post(
+    `${baseUrl}/Anonymessage/messages/publicMessages`,
+    params
+  );
+}
+
 function sendMessage(params) {
   return fetchWrapper.post(
     `${baseUrl}/Anonymessage/messages/sendMessage`,
@@ -61,4 +70,11 @@ function sendMessage(params) {
 
 function deleteMessage(messageId) {
   return fetchWrapper.delete(`${baseUrl}/Anonymessage/messages/${messageId}`);
+}
+
+function updateMessage(messageId, params) {
+  return fetchWrapper.put(
+    `${baseUrl}/Anonymessage/messages/${messageId}`,
+    params
+  );
 }

@@ -17,6 +17,7 @@ function jwtMiddleware(req, res) {
       "/api/users/register",
       "/api/users/authenticate",
       "/api/app/Anonymessage/messages/sendMessage",
+      "/api/app/Anonymessage/messages/publicMessages",
     ],
   });
 

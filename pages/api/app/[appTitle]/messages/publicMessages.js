@@ -4,43 +4,34 @@ import { appType } from "helpers";
 import { ALL_APPS } from "data";
 
 export default apiHandler({
-  get: getByUsernameAndApp,
+  post: getPublicMessages,
 });
 
-async function getByUsernameAndApp(req, res) {
+async function getPublicMessages(req, res) {
   // Get data from the request
-  const { username, appTitle } = req.query;
+  const { isPublic, username } = req.body;
+  const { appTitle } = req.query;
 
   // return if invalid appTitle
   if (ALL_APPS.findIndex((app) => app.title === appTitle) < 0)
     throw "App not in repository";
 
+  // return if invalid params passed
+  if (!username || isPublic === undefined) throw "Invalid params";
+
   // Return if user not found
   const user = await usersRepo.getByUsernameAndApp(username, appTitle);
   if (!user) throw "Unknown user";
-
-  // # Tile Match
-  if (appType.isTileMatch(appTitle)) {
-    // Return the scores for the user
-    const scores = {
-      2: user["score2x2"],
-      4: user["score4x4"],
-      6: user["score6x6"],
-      8: user["score8x8"],
-    };
-    return res.status(200).json({ status: "success", scores });
-  }
 
   // # Anonymessage
   if (appType.isAnonymessage(appTitle)) {
     // Return the messages for the user
     const messages = user.messages
-      .map(({ id, reply, message, isPublic, createdAt }) => {
+      .filter((message) => message.isPublic === isPublic)
+      .map(({ reply, message, createdAt }) => {
         return {
           reply,
           message,
-          isPublic,
-          messageId: id,
           time: createdAt,
           from: "Anonymous",
         };
