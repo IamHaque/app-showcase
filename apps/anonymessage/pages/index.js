@@ -1,6 +1,8 @@
 import { useRouter } from "next/router";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
+import html2canvas from "html2canvas";
 
 import { faWhatsapp, faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -31,6 +33,7 @@ function AnonymessageHome() {
   const router = useRouter();
   const { appTitle } = router.query;
 
+  const messagesRef = useRef([]);
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -79,6 +82,7 @@ function AnonymessageHome() {
           };
         });
         setMessages(userMessages);
+        messagesRef.current = messagesRef.current.slice(0, userMessages.length);
       }
     } catch (e) {}
 
@@ -170,13 +174,39 @@ function AnonymessageHome() {
 
       alertService.success("Message deleted!");
 
-      const updatesMessages = messages.filter(
+      const updatedMessages = messages.filter(
         (message) => message.messageId !== messageId
       );
-      setMessages(updatesMessages);
+      setMessages(updatedMessages);
+      messagesRef.current = messagesRef.current.slice(
+        0,
+        updatedMessages.length
+      );
     } catch (e) {
       alertService.error("Failed to delete message");
     }
+  };
+
+  const shareMessage = async (index) => {
+    if (messagesRef.current[index] === null) return;
+
+    html2canvas(messagesRef.current[index])
+      .then((canvas) => {
+        const data = canvas.toDataURL("image/jpg");
+        const link = document.createElement("a");
+
+        if (typeof link.download === "string") {
+          link.href = data;
+          link.download = "AnonymessageMessage.jpg";
+
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        } else {
+          alertService.error("Error sharing the message!");
+        }
+      })
+      .catch((_) => alertService.error("Error sharing the message!"));
   };
 
   const generateMainDiv = () => {
@@ -207,9 +237,13 @@ function AnonymessageHome() {
         <h2>All Messages ({messages.length})</h2>
 
         <div className={styles.messagesContainer}>
-          {messages.map(({ time, from, message, messageId }) => {
+          {messages.map(({ time, from, message, messageId }, index) => {
             return (
-              <div className={styles.message} key={messageId}>
+              <div
+                key={messageId}
+                className={styles.message}
+                ref={(el) => (messagesRef.current[index] = el)}
+              >
                 <p className={styles.messageFrom}>-{from}</p>
 
                 <p className={styles.messageText}>{message}</p>
@@ -223,13 +257,16 @@ function AnonymessageHome() {
                   </p>
 
                   <div className={styles.actionButtons}>
-                    {/* <button
+                    <button
                       className={`${styles.actionButton} ${styles.share}`}
+                      onClick={() => {
+                        shareMessage(index);
+                      }}
                     >
                       <span>
                         <FontAwesomeIcon icon={faShare} />
                       </span>
-                    </button> */}
+                    </button>
 
                     <button
                       className={`${styles.actionButton} ${styles.trash}`}
