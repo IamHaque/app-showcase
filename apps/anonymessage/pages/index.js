@@ -177,13 +177,19 @@ function AnonymessageHome() {
     }
   };
 
-  const toggleVisibility = async (messageId, isPublic) => {
+  const toggleVisibility = async (messageId, isPublic, hasReply) => {
     try {
+      if (hasReply) isPublic = true;
+
       await appService.updateMessage(messageId, { isPublic });
 
-      alertService.success(
-        `Message marked as ${isPublic ? "public" : "private"}`
-      );
+      if (hasReply) {
+        alertService.error(`Replied messaged cannot be marked as private`);
+      } else {
+        alertService.success(
+          `Message marked as ${isPublic ? "public" : "private"}`
+        );
+      }
 
       const updatedMessages = messages.map((message) =>
         message.messageId !== messageId
@@ -198,14 +204,17 @@ function AnonymessageHome() {
 
   const replyToMessage = async (messageId, messageReply) => {
     try {
-      await appService.updateMessage(messageId, { reply: messageReply });
+      await appService.updateMessage(messageId, {
+        isPublic: true,
+        reply: messageReply,
+      });
 
       alertService.success("Replied to message");
 
       const updatedMessages = messages.map((message) =>
         message.messageId !== messageId
           ? message
-          : { ...message, replying: false, reply: messageReply }
+          : { ...message, isPublic: true, replying: false, reply: messageReply }
       );
       setMessages(updatedMessages);
     } catch (e) {

@@ -96,7 +96,7 @@ export default function MessageCard({
         className={`${styles.button} ${
           isPublic ? styles.public : styles.private
         }`}
-        onClick={() => toggleVisibilityHandler(messageId)}
+        onClick={() => toggleVisibilityHandler(messageId, !isPublic, !!reply)}
       >
         <span>
           <FontAwesomeIcon icon={isPublic ? faPeopleGroup : faLock} />
