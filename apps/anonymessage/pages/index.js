@@ -72,6 +72,7 @@ function AnonymessageHome() {
         const userMessages = data.messages.map((message) => {
           return {
             ...message,
+            replying: false,
             time: timeAgo.format(new Date(message.time)),
           };
         });
@@ -195,6 +196,32 @@ function AnonymessageHome() {
     }
   };
 
+  const replyToMessage = async (messageId, messageReply) => {
+    try {
+      await appService.updateMessage(messageId, { reply: messageReply });
+
+      alertService.success("Replied to message");
+
+      const updatedMessages = messages.map((message) =>
+        message.messageId !== messageId
+          ? message
+          : { ...message, replying: false, reply: messageReply }
+      );
+      setMessages(updatedMessages);
+    } catch (e) {
+      alertService.error("Error replying to message");
+    }
+  };
+
+  const toggleReplying = (messageId) => {
+    const updatedMessages = messages.map((message) =>
+      message.messageId !== messageId
+        ? { ...message, replying: false }
+        : { ...message, replying: !message.replying }
+    );
+    setMessages(updatedMessages);
+  };
+
   const generateMainDiv = () => {
     if (isLoading) {
       return (
@@ -224,7 +251,7 @@ function AnonymessageHome() {
 
         <div className={styles.messagesContainer}>
           {messages.map(
-            ({ time, from, reply, message, isPublic, messageId }, index) => {
+            ({ time, from, reply, message, isPublic, messageId, replying }) => {
               return (
                 <MessageCard
                   time={time}
@@ -234,8 +261,11 @@ function AnonymessageHome() {
                   viewOnly={false}
                   message={message}
                   isPublic={isPublic}
+                  showReply={replying}
                   messageId={messageId}
+                  messageReplyHandler={replyToMessage}
                   deleteMessageHandler={deleteMessage}
+                  showReplyToggleHandler={toggleReplying}
                   toggleVisibilityHandler={toggleVisibility}
                 />
               );

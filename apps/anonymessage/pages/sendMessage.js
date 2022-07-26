@@ -11,8 +11,6 @@ import en from "javascript-time-ago/locale/en";
 
 import { appService, userService, alertService } from "services";
 
-import { appType } from "helpers";
-
 import MessageCard from "../components/message-card";
 import { Link, Input, Button } from "components";
 
@@ -20,13 +18,13 @@ import styles from "../styles/sendMessage.module.scss";
 
 export default AnonymessageSendMessage;
 
-function AnonymessageSendMessage({ recipient }) {
+function AnonymessageSendMessage({ recipient, fetchedMessages }) {
   let hasFetched = false;
   let timeAgo;
 
   const router = useRouter();
 
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(fetchedMessages);
   const [isLoading, setIsLoading] = useState(true);
 
   // form validation rules
@@ -40,13 +38,34 @@ function AnonymessageSendMessage({ recipient }) {
   const { errors } = formState;
 
   useEffect(() => {
-    if (!router.isReady) return;
-
     // fetch messages for user
-    fetchData();
-
+    formatData();
     return () => (hasFetched = true);
-  }, [router.isReady]);
+  }, []);
+
+  const formatData = async () => {
+    if (hasFetched) return;
+
+    try {
+      if (!timeAgo) {
+        TimeAgo.addLocale(en);
+        timeAgo = new TimeAgo("en-US");
+      }
+    } catch (e) {}
+
+    try {
+      const userMessages = fetchedMessages.map((message) => {
+        return {
+          ...message,
+          time: timeAgo.format(new Date(message.time)),
+        };
+      });
+
+      setMessages(userMessages);
+    } catch (e) {}
+
+    setIsLoading(false);
+  };
 
   function onSubmit({ message }) {
     const loggedInUser = userService.userValue?.username;
@@ -75,36 +94,6 @@ function AnonymessageSendMessage({ recipient }) {
       .catch(alertService.error);
   }
 
-  const fetchData = async () => {
-    if (hasFetched) return;
-
-    try {
-      if (!timeAgo) {
-        TimeAgo.addLocale(en);
-        timeAgo = new TimeAgo("en-US");
-      }
-    } catch (e) {}
-
-    try {
-      const data = await appService.getPublicMessages({
-        username: recipient,
-        isPublic: true,
-      });
-
-      if (data && data.status === "success" && data.messages) {
-        const userMessages = data.messages.map((message) => {
-          return {
-            ...message,
-            time: timeAgo.format(new Date(message.time)),
-          };
-        });
-        setMessages(userMessages);
-      }
-    } catch (e) {}
-
-    setIsLoading(false);
-  };
-
   const generateMainDiv = () => {
     if (isLoading) {
       return (
@@ -130,9 +119,10 @@ function AnonymessageSendMessage({ recipient }) {
               <MessageCard
                 time={time}
                 from={from}
-                reply={reply}
                 key={index}
+                reply={reply}
                 message={message}
+                recipient={recipient}
               />
             );
           })}

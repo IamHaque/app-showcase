@@ -13,6 +13,7 @@ export default MyApp;
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
+
   const [authorized, setAuthorized] = useState(false);
 
   useEffect(() => {
