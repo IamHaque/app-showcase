@@ -18,12 +18,6 @@ export const usersRepo = {
 };
 
 async function create({ name, username, password }) {
-  await prisma.anonymessageUser.create({
-    data: {
-      username,
-    },
-  });
-
   await prisma.user.create({
     data: {
       name,
