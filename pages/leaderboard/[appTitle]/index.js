@@ -7,7 +7,7 @@ import { appService, userService } from "services";
 
 import { appType } from "helpers";
 
-import { Header, LeaderboardItem } from "components";
+import { Layout, Header, LeaderboardItem } from "components";
 
 import styles from "styles/leaderboard.module.scss";
 
@@ -27,17 +27,17 @@ function Leaderboard() {
     if (!router.isReady) return;
 
     // return to home page if user not logged in
-    if (!userService.userValue) {
-      router.push({
-        pathname: "/login",
-        returnUrl: router.asPath,
-      });
-    }
-    // return to 404 page if invalid appTitle
-    else if (!appTitle || !appType.isValidApp(appTitle)) {
+    if (!appTitle || !appType.isValidApp(appTitle)) {
       router.replace({
         pathname: "/404",
         returnUrl: "/",
+      });
+    }
+    // return to 404 page if invalid appTitle
+    else if (!userService.userValue) {
+      router.push({
+        pathname: "/login",
+        returnUrl: router.asPath,
       });
     }
 
@@ -149,14 +149,19 @@ function Leaderboard() {
   };
 
   return (
-    <div className={`mainContainer ${styles.appContainer}`}>
-      <Header title={appTitle} backButtonClickHandler={navigateBack} />
+    <Layout
+      title={`Leaderboard | ${appTitle}`}
+      description={`Leaderboard of all players for the game ${appTitle}!`}
+    >
+      <div className={`mainContainer ${styles.appContainer}`}>
+        <Header title={appTitle} backButtonClickHandler={navigateBack} />
 
-      <div className={styles.illustration}>
-        <Image width={400} height={300} src={"/winners.svg"} />
+        <div className={styles.illustration}>
+          <Image width={400} height={300} src={"/winners.svg"} />
+        </div>
+
+        {generateMainDiv()}
       </div>
-
-      {generateMainDiv()}
-    </div>
+    </Layout>
   );
 }

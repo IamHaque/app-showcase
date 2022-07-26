@@ -4,6 +4,8 @@ import { useEffect } from "react";
 
 import { userService } from "services";
 
+import { Layout } from "components";
+
 import AnonymessageSendMessage from "apps/anonymessage/pages/sendMessage";
 
 export default SendMessage;
@@ -19,5 +21,12 @@ function SendMessage() {
     }
   }, [router.isReady]);
 
-  return <AnonymessageSendMessage recipient={username} />;
+  return (
+    <Layout
+      title="Anonymessage"
+      description="Get anonymous messages from your friends and family. They can say anything without disclosing their identity!"
+    >
+      <AnonymessageSendMessage recipient={username} />
+    </Layout>
+  );
 }

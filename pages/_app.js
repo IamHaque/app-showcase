@@ -50,7 +50,7 @@ function MyApp({ Component, pageProps }) {
   function authCheck(url) {
     // redirect to login page if accessing a private page and not logged in
     const publicPaths = {
-      static: ["/login", "/signup"],
+      static: ["/404", "/login", "/signup"],
       dynamic: ["/u/"],
     };
     const path = url.split("?")[0];
@@ -76,6 +76,27 @@ function MyApp({ Component, pageProps }) {
           name="description"
           content="A website showcasing all the projects worked by https://github.com/IamHaque"
         />
+
+        {/* Favicons */}
+        <link rel="shortcut icon" href="/Favicons/favicon.ico" />
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/Favicons/apple-touch-icon.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/Favicons/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/Favicons/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/Favicons/site.webmanifest"></link>
 
         {/* font-family: 'Poppins', sans-serif; */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />

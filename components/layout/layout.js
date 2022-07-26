@@ -1,14 +1,14 @@
-import { useEffect } from "react";
-import { useRouter } from "next/router";
+import Head from "next/head";
 
-export default function Layout({ children }) {
-  const router = useRouter();
+export default function Layout({ title, description, children }) {
+  return (
+    <>
+      <Head>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+      </Head>
 
-  useEffect(() => {
-    if (userService.userValue) {
-      router.push("/");
-    }
-  }, []);
-
-  return <div>{children}</div>;
+      {children}
+    </>
+  );
 }

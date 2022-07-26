@@ -8,7 +8,7 @@ import { appService, userService } from "services";
 import { appType } from "helpers";
 import { ALL_APPS } from "data";
 
-import { Header, LeaderboardItem } from "components";
+import { Layout, Header, LeaderboardItem } from "components";
 
 import styles from "styles/leaderboard.module.scss";
 
@@ -140,14 +140,19 @@ function UserLeaderboard() {
   };
 
   return (
-    <div className={`mainContainer ${styles.appContainer}`}>
-      <Header title={username} backButtonClickHandler={navigateBack} />
+    <Layout
+      title={`User Leaderboard | ${username}`}
+      description={`Leaderboard of all the games for the player ${username}!`}
+    >
+      <div className={`mainContainer ${styles.appContainer}`}>
+        <Header title={username} backButtonClickHandler={navigateBack} />
 
-      <div className={styles.illustration}>
-        <Image width={400} height={300} src={"/badge.svg"} />
+        <div className={styles.illustration}>
+          <Image width={400} height={300} src={"/badge.svg"} />
+        </div>
+
+        {generateMainDiv()}
       </div>
-
-      {generateMainDiv()}
-    </div>
+    </Layout>
   );
 }

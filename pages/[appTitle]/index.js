@@ -14,6 +14,8 @@ import { userService } from "services";
 
 import { appType } from "helpers";
 
+import { Layout } from "components";
+
 const tileMatchGameScreens = Object.freeze({
   HOME: "home",
   GAME: "game",
@@ -34,32 +36,49 @@ function App() {
     if (!router.isReady) return;
 
     // return to home page if user not logged in
-    if (!userService.userValue) {
-      router.push({
-        pathname: "/login",
-        returnUrl: router.asPath,
-      });
-    }
-    // return to 404 page if invalid appTitle
-    else if (!appTitle || !appType.isValidApp(appTitle)) {
+    if (!appTitle || !appType.isValidApp(appTitle)) {
       router.replace({
         pathname: "/404",
         returnUrl: "/",
       });
     }
+    // return to 404 page if invalid appTitle
+    else if (!userService.userValue) {
+      router.push({
+        pathname: "/login",
+        returnUrl: router.asPath,
+      });
+    }
   }, [router.isReady]);
 
   if (appType.isAnonymessage(appTitle)) {
-    return <AnonymessageHome />;
+    return (
+      <Layout
+        title="Anonymessage"
+        description="Get anonymous messages from your friends and family. They can say anything without disclosing their identity!"
+      >
+        <AnonymessageHome />
+      </Layout>
+    );
   }
 
   if (appType.isJumpyDino(appTitle)) {
-    return <JumpyDinoHome username={userService.userValue?.username} />;
+    return (
+      <Layout
+        title="Jumpy Dino"
+        description="A jumping dino which changes it's color after each successful jump. Match the next tree color, the tree being jumped upon, with the dino's color to keep him alive."
+      >
+        <JumpyDinoHome username={userService.userValue?.username} />
+      </Layout>
+    );
   }
 
   if (appType.isTileMatch(appTitle)) {
     return (
-      <>
+      <Layout
+        title="Tile Match"
+        description="A memory game with a range of difficulty levels. Flip the tiles in the selected grid and match all the same tiles."
+      >
         {tileMatchGameScreen === tileMatchGameScreens.HOME && (
           <TileMatchHome
             startGameClickHandler={() => {
@@ -89,7 +108,7 @@ function App() {
             username={userService.userValue?.username}
           />
         )}
-      </>
+      </Layout>
     );
   }
 }
