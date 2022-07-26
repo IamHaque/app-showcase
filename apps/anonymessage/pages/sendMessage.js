@@ -39,10 +39,14 @@ function AnonymessageSendMessage({ recipient }) {
 
         setTimeout(() => {
           // return to app home if logged in else to login page
-          const returnUrl = loggedInUser
-            ? "/app?appTitle=Anonymessage&appIndex=0"
-            : "/login";
-          router.push(returnUrl);
+          if (loggedInUser) {
+            router.push("/Anonymessage");
+          } else {
+            router.push({
+              pathname: "/login",
+              returnUrl: "/Anonymessage",
+            });
+          }
         }, 1000);
       })
       .catch(alertService.error);

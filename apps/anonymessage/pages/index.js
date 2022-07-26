@@ -16,11 +16,10 @@ import en from "javascript-time-ago/locale/en";
 
 import { alertService, appService, userService } from "services";
 
-import { ALL_APPS } from "data";
-
 import { Avatar } from "components";
 
 import styles from "../styles/home.module.scss";
+import { appType } from "helpers";
 
 export default AnonymessageHome;
 
@@ -30,19 +29,27 @@ function AnonymessageHome() {
   let timeAgo;
 
   const router = useRouter();
-  const { appTitle, appIndex } = router.query;
+  const { appTitle } = router.query;
 
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // return to home page if no user of invalid app details
-    if (
-      !userService.userValue ||
-      !appTitle ||
-      ALL_APPS[appIndex]?.title !== appTitle
-    ) {
-      router.push("/");
+    if (!router.isReady) return;
+
+    // return to home page if user not logged in
+    if (!userService.userValue) {
+      router.push({
+        pathname: "/login",
+        returnUrl: router.asPath,
+      });
+    }
+    // return to 404 page if invalid appTitle
+    else if (!appTitle || !appType.isValidApp(appTitle)) {
+      router.replace({
+        pathname: "/404",
+        returnUrl: "/",
+      });
     }
 
     // fetch messages for user

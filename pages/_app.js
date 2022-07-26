@@ -13,10 +13,11 @@ export default MyApp;
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
-  const [user, setUser] = useState(null);
   const [authorized, setAuthorized] = useState(false);
 
   useEffect(() => {
+    if (!router.isReady) return;
+
     // on initial load - run auth check
     authCheck(router.asPath);
 
@@ -44,16 +45,21 @@ function MyApp({ Component, pageProps }) {
       router.events.off("routeChangeComplete", authCheck);
       window.removeEventListener("resize", setWindowHeight);
     };
-  }, []);
+  }, [router.isReady]);
 
   function authCheck(url) {
     // redirect to login page if accessing a private page and not logged in
-    setUser(userService.userValue);
-
-    const publicPaths = ["/login", "/signup", "/u/[username]"];
+    const publicPaths = {
+      static: ["/login", "/signup"],
+      dynamic: ["/u/"],
+    };
     const path = url.split("?")[0];
 
-    if (userService.userValue || publicPaths.includes(path)) {
+    if (
+      userService.userValue ||
+      publicPaths.static.includes(path) ||
+      publicPaths.dynamic.findIndex((p) => path.startsWith(p)) >= 0
+    ) {
       setAuthorized(true);
       return;
     }

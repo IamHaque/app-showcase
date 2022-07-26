@@ -25,7 +25,7 @@ function UserLeaderboard() {
 
   useEffect(() => {
     // return to home page if not logged in
-    if (!userService.userValue) {
+    if (!userService.userValue || !username) {
       router.push("/");
     }
 

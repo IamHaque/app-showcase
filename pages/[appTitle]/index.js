@@ -12,7 +12,6 @@ import TileMatchLeaderboard from "apps/tile-match/pages/leaderboard";
 
 import { userService } from "services";
 
-import { ALL_APPS } from "/data";
 import { appType } from "helpers";
 
 const tileMatchGameScreens = Object.freeze({
@@ -25,20 +24,28 @@ export default App;
 
 function App() {
   const router = useRouter();
-  const { appTitle, appIndex } = router.query;
+  const { appTitle } = router.query;
 
   const [tileMatchGameScreen, setTileMatchGameScreen] = useState(
     tileMatchGameScreens.HOME
   );
 
   useEffect(() => {
-    // return to home page if no user of invalid app details
-    if (
-      !userService.userValue ||
-      !appTitle ||
-      ALL_APPS[appIndex]?.title !== appTitle
-    ) {
-      router.push("/");
+    if (!router.isReady) return;
+
+    // return to home page if user not logged in
+    if (!userService.userValue) {
+      router.push({
+        pathname: "/login",
+        returnUrl: router.asPath,
+      });
+    }
+    // return to 404 page if invalid appTitle
+    else if (!appTitle || !appType.isValidApp(appTitle)) {
+      router.replace({
+        pathname: "/404",
+        returnUrl: "/",
+      });
     }
   }, [router.isReady]);
 

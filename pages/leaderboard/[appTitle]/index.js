@@ -6,7 +6,6 @@ import { useState, useEffect } from "react";
 import { appService, userService } from "services";
 
 import { appType } from "helpers";
-import { ALL_APPS } from "data";
 
 import { Header, LeaderboardItem } from "components";
 
@@ -18,20 +17,28 @@ function Leaderboard() {
   let hasFetched = false;
 
   const router = useRouter();
-  const { appTitle, appIndex } = router.query;
+  const { appTitle } = router.query;
 
   const [isLoading, setIsLoading] = useState(true);
   const [isTileMatch, setIsTileMatch] = useState(false);
   const [leaderboardData, setLeaderboardData] = useState([]);
 
   useEffect(() => {
-    // return to home page if no user of invalid app details
-    if (
-      !userService.userValue ||
-      !appTitle ||
-      ALL_APPS[appIndex]?.title !== appTitle
-    ) {
-      router.push("/");
+    if (!router.isReady) return;
+
+    // return to home page if user not logged in
+    if (!userService.userValue) {
+      router.push({
+        pathname: "/login",
+        returnUrl: router.asPath,
+      });
+    }
+    // return to 404 page if invalid appTitle
+    else if (!appTitle || !appType.isValidApp(appTitle)) {
+      router.replace({
+        pathname: "/404",
+        returnUrl: "/",
+      });
     }
 
     // fetch leaderboard data for appTitle
@@ -70,12 +77,7 @@ function Leaderboard() {
   };
 
   const navigateToUserLeaderboard = (username) => {
-    router.push({
-      pathname: "/userLeaderboard",
-      query: {
-        username,
-      },
-    });
+    router.push("/userLeaderboard/" + username);
   };
 
   const navigateBack = () => {

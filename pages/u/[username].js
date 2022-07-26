@@ -15,7 +15,7 @@ function SendMessage() {
   useEffect(() => {
     // redirect to user profile if opened by owner
     if (userService.userValue && userService.userValue?.username === username) {
-      router.push("/app?appTitle=Anonymessage&appIndex=0");
+      router.push("/Anonymessage");
     }
   }, [router.isReady]);
 

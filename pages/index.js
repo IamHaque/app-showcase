@@ -18,13 +18,7 @@ function Home() {
 
     const appTitle = ALL_APPS[appIndex].title;
 
-    router.push({
-      pathname: "/app",
-      query: {
-        appTitle,
-        appIndex,
-      },
-    });
+    router.push("/" + appTitle);
   }
 
   function openLeaderboard(appIndex) {
@@ -32,13 +26,7 @@ function Home() {
 
     const appTitle = ALL_APPS[appIndex].title;
 
-    router.push({
-      pathname: "/leaderboard",
-      query: {
-        appTitle,
-        appIndex,
-      },
-    });
+    router.push("/leaderboard/" + appTitle);
   }
 
   return (
