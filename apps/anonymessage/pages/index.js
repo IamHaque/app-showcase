@@ -74,6 +74,9 @@ function AnonymessageHome() {
             ...message,
             replying: false,
             time: timeAgo.format(new Date(message.time)),
+            repliedAt: message.repliedAt
+              ? timeAgo.format(new Date(message.repliedAt))
+              : undefined,
           };
         });
         setMessages(userMessages);
@@ -204,8 +207,10 @@ function AnonymessageHome() {
 
   const replyToMessage = async (messageId, messageReply) => {
     try {
+      const timeNow = new Date().toISOString();
       await appService.updateMessage(messageId, {
         isPublic: true,
+        repliedAt: timeNow,
         reply: messageReply,
       });
 
@@ -260,7 +265,16 @@ function AnonymessageHome() {
 
         <div className={styles.messagesContainer}>
           {messages.map(
-            ({ time, from, reply, message, isPublic, messageId, replying }) => {
+            ({
+              time,
+              from,
+              reply,
+              message,
+              isPublic,
+              replying,
+              messageId,
+              repliedAt,
+            }) => {
               return (
                 <MessageCard
                   time={time}
@@ -271,6 +285,7 @@ function AnonymessageHome() {
                   message={message}
                   isPublic={isPublic}
                   showReply={replying}
+                  repliedAt={repliedAt}
                   messageId={messageId}
                   messageReplyHandler={replyToMessage}
                   deleteMessageHandler={deleteMessage}

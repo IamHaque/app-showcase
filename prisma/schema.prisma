@@ -48,6 +48,7 @@ model AnonymessageUser {
 }
 
 model AnonymessageMessage {
+  repliedAt     DateTime?
   recipientId   String
   message       String
   sender        String

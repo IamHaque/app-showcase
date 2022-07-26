@@ -58,11 +58,16 @@ function AnonymessageSendMessage({ recipient, fetchedMessages }) {
         return {
           ...message,
           time: timeAgo.format(new Date(message.time)),
+          repliedAt: message.repliedAt
+            ? timeAgo.format(new Date(message.repliedAt))
+            : undefined,
         };
       });
 
       setMessages(userMessages);
-    } catch (e) {}
+    } catch (e) {
+      console.log(e);
+    }
 
     setIsLoading(false);
   };
@@ -114,7 +119,7 @@ function AnonymessageSendMessage({ recipient, fetchedMessages }) {
         </h2>
 
         <div className={styles.messagesContainer}>
-          {messages.map(({ time, from, reply, message }, index) => {
+          {messages.map(({ time, from, reply, message, repliedAt }, index) => {
             return (
               <MessageCard
                 time={time}
@@ -122,6 +127,7 @@ function AnonymessageSendMessage({ recipient, fetchedMessages }) {
                 key={index}
                 reply={reply}
                 message={message}
+                repliedAt={repliedAt}
                 recipient={recipient}
               />
             );

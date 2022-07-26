@@ -27,7 +27,7 @@ async function updateByMessageId(req, res) {
   if (appType.isAnonymessage(appTitle)) {
     // delete message for user with message id
     await usersRepo.updateMessage(messageId, appTitle, params);
-    return res.status(200).json({ data: params });
+    return res.status(200).json({});
   }
 
   // called for other apps

@@ -33,13 +33,15 @@ async function getByUsernameAndApp(req, res) {
 
   // # Anonymessage
   if (appType.isAnonymessage(appTitle)) {
+    console.log(user.messages);
     // Return the messages for the user
     const messages = user.messages.map(
-      ({ id, reply, message, isPublic, createdAt }) => {
+      ({ id, reply, message, isPublic, repliedAt, createdAt }) => {
         return {
           reply,
           message,
           isPublic,
+          repliedAt,
           messageId: id,
           time: createdAt,
           from: "Anonymous",

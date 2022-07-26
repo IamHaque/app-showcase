@@ -28,10 +28,11 @@ async function getPublicMessages(req, res) {
     // Return the messages for the user
     const messages = user.messages
       .filter((message) => message.isPublic === isPublic)
-      .map(({ reply, message, createdAt }) => {
+      .map(({ reply, message, createdAt, repliedAt }) => {
         return {
           reply,
           message,
+          repliedAt,
           time: createdAt,
           from: "Anonymous",
         };

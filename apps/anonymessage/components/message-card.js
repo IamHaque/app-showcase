@@ -27,6 +27,7 @@ export default function MessageCard({
   showReply,
   recipient,
   messageId,
+  repliedAt,
   viewOnly = true,
   messageReplyHandler,
   deleteMessageHandler,
@@ -182,11 +183,19 @@ export default function MessageCard({
   if (viewOnly && reply) {
     return (
       <div className={styles.message} ref={elRef}>
-        <p className={styles.mentionText}>{message}</p>
+        <div className={styles.mentionWrapper}>
+          <div className={styles.mentionUserAndTime}>
+            <p className={styles.user}>{from}</p>
+
+            <p className={styles.time}>{time}</p>
+          </div>
+
+          <p className={styles.mentionText}>{message}</p>
+        </div>
 
         <div className={styles.recipientWrapper}>
           <p className={styles.user}>{recipient}</p>
-          <p className={styles.time}>{time}</p>
+          <p className={styles.time}>{repliedAt}</p>
         </div>
 
         <p className={styles.replyText}>{reply}</p>
