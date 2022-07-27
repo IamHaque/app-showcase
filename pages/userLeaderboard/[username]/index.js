@@ -94,6 +94,10 @@ function UserLeaderboard() {
     router.push("/");
   };
 
+  const sendMessage = () => {
+    router.push("/u/" + username);
+  };
+
   const generateMainDiv = () => {
     // Show loading if data is being fetched
     if (isLoading) {
@@ -145,7 +149,15 @@ function UserLeaderboard() {
       description={`Leaderboard of all the games for the player ${username}!`}
     >
       <div className={`mainContainer ${styles.appContainer}`}>
-        <Header title={username} backButtonClickHandler={navigateBack} />
+        <Header
+          title={username}
+          backButtonClickHandler={navigateBack}
+          rightButtonClickHandler={
+            userService.userValue?.username !== username
+              ? sendMessage
+              : undefined
+          }
+        />
 
         <div className={styles.illustration}>
           <Image width={400} height={300} src={"/badge.svg"} />
