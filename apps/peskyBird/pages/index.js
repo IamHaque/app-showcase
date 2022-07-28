@@ -339,7 +339,7 @@ export default function PeskyBirdHome({ username }) {
       canvasHeight: CANVAS_HEIGHT_REF.current,
 
       lives: 3,
-      score: 6,
+      score: 0,
       dying: false,
       gameOver: false,
       gameStarted: false,
