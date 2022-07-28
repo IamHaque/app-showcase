@@ -420,7 +420,8 @@ export default function PeskyBirdHome({ username }) {
     p5.text(GAME_STATE.score, centerX * 1.4, centerY + FONT.size * 1);
 
     p5.textAlign(p5.LEFT);
-    p5.text(HIGHSCORE_REF.current, centerX * 0.6, centerY + FONT.size * 1);
+
+    p5.text(HIGHSCORE_REF.current || 0, centerX * 0.6, centerY + FONT.size * 1);
 
     // GAME OVER text
     p5.strokeWeight(FONT.strokeWeight);
