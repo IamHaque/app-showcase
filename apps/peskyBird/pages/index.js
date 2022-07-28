@@ -33,6 +33,7 @@ export default function PeskyBirdHome({ username }) {
   let SWOOSH_SOUND_REF = useRef();
 
   const HIGHSCORE_REF = useRef();
+  const IS_BUSY_REF = useRef();
 
   useEffect(() => {
     CANVAS_HEIGHT_REF.current = window.innerHeight;
@@ -47,9 +48,8 @@ export default function PeskyBirdHome({ username }) {
 
     const fetchLeaderboard = async () => {
       const data = await API.getLeaderboardData();
-      HIGHSCORE_REF.current = data.filter(
-        (item) => item.username === username
-      )[0]?.score;
+      HIGHSCORE_REF.current =
+        data.filter((item) => item.username === username)[0]?.score || 0;
     };
 
     fetchLeaderboard().catch(console.error);
@@ -66,9 +66,13 @@ export default function PeskyBirdHome({ username }) {
   }
 
   async function updateLeaderboard(score) {
+    if (IS_BUSY_REF.current === true) return;
+
+    IS_BUSY_REF.current = true;
     if (HIGHSCORE_REF.current < score) {
       await API.updateLeaderboard(username, score);
       HIGHSCORE_REF.current = score;
+      IS_BUSY_REF.current = false;
     }
   }
 
@@ -199,8 +203,6 @@ export default function PeskyBirdHome({ username }) {
 
           if (PIPES[i].isOffScreen()) {
             PIPES.splice(i, 1);
-            // GAME_STATE.score += 1;
-            // console.log(GAME_STATE.score);
           }
 
           if (PIPES[i].collidesWith(BIRD) || BIRD.isOnFloor()) {
@@ -337,7 +339,7 @@ export default function PeskyBirdHome({ username }) {
       canvasHeight: CANVAS_HEIGHT_REF.current,
 
       lives: 3,
-      score: 0,
+      score: 6,
       dying: false,
       gameOver: false,
       gameStarted: false,
@@ -421,7 +423,7 @@ export default function PeskyBirdHome({ username }) {
 
     p5.textAlign(p5.LEFT);
 
-    p5.text(HIGHSCORE_REF.current || 0, centerX * 0.6, centerY + FONT.size * 1);
+    p5.text(HIGHSCORE_REF.current, centerX * 0.6, centerY + FONT.size * 1);
 
     // GAME OVER text
     p5.strokeWeight(FONT.strokeWeight);
