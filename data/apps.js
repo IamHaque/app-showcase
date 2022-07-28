@@ -21,6 +21,6 @@ export const ALL_APPS = [
     title: "Pesky Bird",
     img: "/jumpyDino.png",
     type: "game",
-    desc: "Flappy Bird clone.",
+    desc: "An arcade-style game, controlling the bird which moves persistently to the right. Navigate the bird through pairs of tree logs that have randomized sized gaps placed at random heights. Score higher to get placed at the top of the leaderboard!",
   },
 ];

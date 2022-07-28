@@ -75,7 +75,10 @@ function App() {
 
   if (appType.isPeskyBird(appTitle)) {
     return (
-      <Layout title="Pesky Bird" description="Flappy bird clone.">
+      <Layout
+        title="Pesky Bird"
+        description="An arcade-style game, controlling the bird which moves persistently to the right. Navigate the bird through pairs of tree logs that have randomized sized gaps placed at random heights."
+      >
         <PeskyBirdHome username={userService.userValue?.username} />
       </Layout>
     );
