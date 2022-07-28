@@ -3,8 +3,8 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import AnonymessageHome from "apps/anonymessage/pages";
-
 import JumpyDinoHome from "apps/jumpy-dino/pages";
+import PeskyBirdHome from "apps/peskyBird/pages";
 
 import TileMatchHome from "apps/tile-match/pages";
 import TileMatchGame from "apps/tile-match/pages/game";
@@ -69,6 +69,14 @@ function App() {
         description="A jumping dino which changes it's color after each successful jump. Match the next tree color, the tree being jumped upon, with the dino's color to keep him alive."
       >
         <JumpyDinoHome username={userService.userValue?.username} />
+      </Layout>
+    );
+  }
+
+  if (appType.isPeskyBird(appTitle)) {
+    return (
+      <Layout title="Pesky Bird" description="Flappy bird clone.">
+        <PeskyBirdHome username={userService.userValue?.username} />
       </Layout>
     );
   }

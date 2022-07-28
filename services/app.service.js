@@ -8,14 +8,16 @@ const baseUrl = `${publicRuntimeConfig.apiUrl}/app`;
 /*
 /app
     /[appTitle]
-        /[username]
-        /updateScore
         /leaderboard
             /[gridSize]
             /index
         /messages
             /[messageId]
+            /publicMessages
             /sendMessage
+        /[username]
+        /index
+        /updateScore
 */
 
 export const appService = {

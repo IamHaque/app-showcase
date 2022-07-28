@@ -36,3 +36,10 @@ prisma/schema.prisma
 prisma/migrations/migration_lock.toml
 prisma/migrations/20220720192029_init/migration.sql
 prisma/migrations/20220724195047_init/migration.sql
+.env
+next.config.js
+prisma/migrations/20220724185643_init/migration.sql
+prisma/migrations/20220726101943_init/migration.sql
+prisma/migrations/20220726222827_init/migration.sql
+prisma/migrations/20220727100138_init/migration.sql
+public/FluffyBirds.zip

@@ -6,6 +6,7 @@ export const appType = {
   isValidApp,
   isTileMatch,
   isJumpyDino,
+  isPeskyBird,
   isAnonymessage,
 };
 
@@ -27,13 +28,17 @@ function isValidApp(appTitle) {
 }
 
 function isAnonymessage(appTitle) {
-  return appTitle === ALL_APPS[0].title;
+  return appTitle === ALL_APPS[0]?.title;
 }
 
 function isJumpyDino(appTitle) {
-  return appTitle === ALL_APPS[1].title;
+  return appTitle === ALL_APPS[1]?.title;
 }
 
 function isTileMatch(appTitle) {
-  return appTitle === ALL_APPS[2].title;
+  return appTitle === ALL_APPS[2]?.title;
+}
+
+function isPeskyBird(appTitle) {
+  return appTitle === ALL_APPS[3]?.title;
 }

@@ -17,4 +17,10 @@ export const ALL_APPS = [
     type: "game",
     desc: "A memory game with a range of difficulty levels. Flip the tiles in the selected grid and match all the same tiles. Match all the same tiles in least amount of time and with minimum wrong flips to secure a better score. Highscores are featured on the leaderboard!",
   },
+  {
+    title: "Pesky Bird",
+    img: "/jumpyDino.png",
+    type: "game",
+    desc: "Flappy Bird clone.",
+  },
 ];

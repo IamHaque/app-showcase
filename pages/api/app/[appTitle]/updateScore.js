@@ -23,7 +23,7 @@ async function updateScore(req, res) {
   // stores the score to be updated
   let scoreToUpdate = score;
 
-  // # App 1. Jumpy Dino
+  // # App Jumpy Dino
   if (appType.isJumpyDino(appTitle)) {
     // return if invalid params passed
     if (score === undefined) throw "Invalid params";
@@ -31,8 +31,8 @@ async function updateScore(req, res) {
     if (user.highscore >= score) throw "Score less than current highscore";
   }
 
-  // # App 2. Tile Match
-  if (appType.isTileMatch(appTitle)) {
+  // # App Tile Match
+  else if (appType.isTileMatch(appTitle)) {
     // return if invalid params passed
     if (!gridSize || score === undefined) throw "Invalid params";
     // map score to correct grid
@@ -40,6 +40,19 @@ async function updateScore(req, res) {
     if (gridSize === 4) scoreToUpdate = { score4x4: score };
     if (gridSize === 6) scoreToUpdate = { score6x6: score };
     if (gridSize === 8) scoreToUpdate = { score8x8: score };
+  }
+
+  // # App Pesky Bird
+  else if (appType.isPeskyBird(appTitle)) {
+    // return if invalid params passed
+    if (score === undefined) throw "Invalid params";
+    // Return if current score is not highscore
+    if (user.highscore >= score) throw "Score less than current highscore";
+  }
+
+  // called for other apps
+  else {
+    throw "Invalid endpoint for the app";
   }
 
   // Update app scores

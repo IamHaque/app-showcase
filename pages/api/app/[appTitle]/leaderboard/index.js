@@ -20,16 +20,32 @@ async function getAppLeaderboard(req, res) {
 
   // get all users for provided app
   const users = await usersRepo.getAllByApp(appTitle);
+  if (!users) throw "Unknown user";
 
-  // # App 1. Jumpy Dino
+  // # App Jumpy Dino
   if (appType.isJumpyDino(appTitle)) {
     return res.status(200).json({
       status: "success",
-      leaderboard: createJDLeaderboardDataFromUsers(users),
+      leaderboard: createLeaderboardDataFromUsers(users),
     });
   }
 
-  // # App 2. Tile Match
+  // # App Pesky Bird
+  if (appType.isPeskyBird(appTitle)) {
+    return res.status(200).json({
+      status: "success",
+      leaderboard: createLeaderboardDataFromUsers(
+        users.map((user) => {
+          return {
+            username: user.username,
+            highscore: user?.peskyBird?.highscore,
+          };
+        })
+      ),
+    });
+  }
+
+  // # App Tile Match
   if (appType.isTileMatch(appTitle))
     throw "Invalid endpoint for Tile Match leaderboard";
 
@@ -37,7 +53,7 @@ async function getAppLeaderboard(req, res) {
   throw "Server error";
 }
 
-const createJDLeaderboardDataFromUsers = (users) => {
+const createLeaderboardDataFromUsers = (users) => {
   // Get leaderboard data
   let leaderboard = users
     .reduce((acc, user) => {

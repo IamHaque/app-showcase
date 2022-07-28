@@ -75,6 +75,24 @@ async function getByUsernameAndApp(username, appTitle) {
     });
   }
 
+  // Pesky Bird
+  if (appType.isPeskyBird(appTitle)) {
+    return await prisma.user.findUnique({
+      where: {
+        username: username,
+      },
+      select: {
+        name: true,
+        username: true,
+        peskyBird: {
+          select: {
+            highscore: true,
+          },
+        },
+      },
+    });
+  }
+
   // Tile Match
   if (appType.isTileMatch(appTitle)) {
     return await prisma.tileMatchUser.findUnique({
@@ -110,6 +128,22 @@ async function getAllByApp(appTitle) {
   // Jumpy Dino
   if (appType.isJumpyDino(appTitle)) {
     return await prisma.jumpyDinoUser.findMany();
+  }
+
+  // Pesky Bird
+  if (appType.isPeskyBird(appTitle)) {
+    return await prisma.user.findMany({
+      select: {
+        username: true,
+        peskyBird: {
+          select: {
+            highscore: true,
+          },
+        },
+      },
+    });
+
+    // return await prisma.jumpyDinoUser.findMany();
   }
 
   // Tile Match
@@ -148,6 +182,27 @@ async function updateScore(username, appTitle, score) {
         username: username,
       },
       data: score,
+    });
+  }
+
+  // Pesky Bird
+  else if (appType.isPeskyBird(appTitle)) {
+    await prisma.user.update({
+      where: {
+        username: username,
+      },
+      data: {
+        peskyBird: {
+          upsert: {
+            update: {
+              highscore: score,
+            },
+            create: {
+              highscore: score,
+            },
+          },
+        },
+      },
     });
   }
 
