@@ -361,8 +361,8 @@ export default function PeskyBirdHome({ username }) {
       dying: false,
       gameOver: false,
       gameStarted: false,
-      increaseSpeedSteps: 1,
-      increaseSpeedAtScore: 1,
+      increaseSpeedSteps: 15,
+      increaseSpeedAtScore: 15,
       speed: Math.ceil(CANVAS_WIDTH_REF.current / (40 * 4)),
     };
 
