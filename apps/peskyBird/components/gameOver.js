@@ -27,7 +27,7 @@ export default function GameOver({ score, highscore, resetGame }) {
           alt={"GameOver"}
           width={"192"}
           height={"42"}
-          src={"/PeskyBirds/gameOver.png"}
+          src={"/PeskyBirds/gameover.png"}
         />
       </div>
 
