@@ -9,14 +9,20 @@ export default class Bird {
     this.g = 0.6;
 
     this.floorY = floorY;
+    this.flyingHeight = 0.25;
   }
 
   fly() {
-    this.v = this.h * -0.25;
+    this.v = this.h * this.flyingHeight * -1;
   }
 
   isOnFloor() {
     return this.y + this.h >= this.floorY;
+  }
+
+  increaseDifficulty() {
+    this.g = this.g * 1.2;
+    this.flyingHeight = this.flyingHeight * 1.1;
   }
 
   update() {

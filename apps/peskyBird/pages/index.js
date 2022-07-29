@@ -216,6 +216,7 @@ export default function PeskyBirdHome({ username }) {
 
           if (PIPES[i].collidesWith(BIRD) || BIRD.isOnFloor()) {
             playSound(HIT_SOUND_REF);
+
             GAME_STATE.dying = true;
             BIRD.fly();
             updateLeaderboard(GAME_STATE.score);
@@ -223,8 +224,9 @@ export default function PeskyBirdHome({ username }) {
 
           // Increase score if pipe passed without collision
           if (PIPES[i].hasPassed(BIRD)) {
-            GAME_STATE.score += 1;
             playSound(POINT_SOUND_REF);
+
+            GAME_STATE.score += 1;
           }
         }
 
@@ -233,12 +235,17 @@ export default function PeskyBirdHome({ username }) {
           GAME_STATE.score !== 0 &&
           GAME_STATE.score % GAME_STATE.increaseSpeedAtScore === 0
         ) {
-          GAME_STATE.speed += 2;
-          ENVIRONMENT_SPEEDS["grass"] += 2;
-          ENVIRONMENT_IMAGES["grass"].speed += 2;
-          ENVIRONMENT_IMAGES["grassFlipped"].speed += 2;
-          GAME_STATE.increaseSpeedAtScore += GAME_STATE.increaseSpeedSteps;
           playSound(SWOOSH_SOUND_REF);
+
+          GAME_STATE.speed += 1;
+          ENVIRONMENT_SPEEDS["grass"] += 1;
+          ENVIRONMENT_IMAGES["grass"].speed += 1;
+          ENVIRONMENT_IMAGES["grassFlipped"].speed += 1;
+
+          GAME_STATE.increaseSpeedAtScore += GAME_STATE.increaseSpeedSteps;
+          GAME_STATE.increaseSpeedSteps += 1;
+
+          BIRD.increaseDifficulty();
         }
 
         // Add new pipe if last pipe reached 40% width
@@ -275,8 +282,8 @@ export default function PeskyBirdHome({ username }) {
       return;
     }
 
-    BIRD.fly();
     playSound(FLY_SOUND_REF);
+    BIRD.fly();
   }
 
   function setupFont() {
@@ -354,8 +361,8 @@ export default function PeskyBirdHome({ username }) {
       dying: false,
       gameOver: false,
       gameStarted: false,
-      increaseSpeedSteps: 15,
-      increaseSpeedAtScore: 15,
+      increaseSpeedSteps: 1,
+      increaseSpeedAtScore: 1,
       speed: Math.ceil(CANVAS_WIDTH_REF.current / (40 * 4)),
     };
 

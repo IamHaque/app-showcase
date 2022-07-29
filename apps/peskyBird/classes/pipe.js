@@ -37,7 +37,7 @@ export default class Pipe {
   }
 
   hasPassed(bird) {
-    if (!this.passed && bird.x > this.x + this.w) {
+    if (!this.passed && bird.x > this.x + this.w * 0.85) {
       this.passed = true;
       return true;
     }

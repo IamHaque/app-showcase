@@ -6,6 +6,12 @@ export const ALL_APPS = [
     desc: "Get anonymous messages from your friends and family. They can say anything without disclosing their identity!",
   },
   {
+    title: "Pesky Bird",
+    img: "/peskyBird.png",
+    type: "game",
+    desc: "An arcade-style game, controlling the bird which moves persistently to the right. Navigate the bird through pairs of tree logs that have randomized sized gaps placed at random heights. Score higher to get placed at the top of the leaderboard!",
+  },
+  {
     title: "Jumpy Dino",
     img: "/jumpyDino.png",
     type: "game",
@@ -16,11 +22,5 @@ export const ALL_APPS = [
     img: "/tileMatch.png",
     type: "game",
     desc: "A memory game with a range of difficulty levels. Flip the tiles in the selected grid and match all the same tiles. Match all the same tiles in least amount of time and with minimum wrong flips to secure a better score. Highscores are featured on the leaderboard!",
-  },
-  {
-    title: "Pesky Bird",
-    img: "/peskyBird.png",
-    type: "game",
-    desc: "An arcade-style game, controlling the bird which moves persistently to the right. Navigate the bird through pairs of tree logs that have randomized sized gaps placed at random heights. Score higher to get placed at the top of the leaderboard!",
   },
 ];

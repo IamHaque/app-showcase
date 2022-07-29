@@ -10,9 +10,9 @@ export default function GameOver({ score, highscore, resetGame }) {
   const router = useRouter();
 
   let medal;
-  if (score >= 45) medal = "/PeskyBirds/medal_4.png";
-  else if (score >= 30) medal = "/PeskyBirds/medal_3.png";
-  else if (score >= 15) medal = "/PeskyBirds/medal_2.png";
+  if (score >= 115) medal = "/PeskyBirds/medal_4.png";
+  else if (score >= 50) medal = "/PeskyBirds/medal_3.png";
+  else if (score > 15) medal = "/PeskyBirds/medal_2.png";
   else medal = "/PeskyBirds/medal_1.png";
 
   return (
