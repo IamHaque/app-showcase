@@ -65,9 +65,7 @@ function AnonymessageSendMessage({ recipient, fetchedMessages }) {
       });
 
       setMessages(userMessages);
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
 
     setIsLoading(false);
   };
