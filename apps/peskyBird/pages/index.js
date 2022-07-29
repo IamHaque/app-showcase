@@ -155,7 +155,7 @@ export default function PeskyBirdHome({ username }) {
       drawStartMenu(p5);
     }
 
-    if (GAME_STATE.gameStarted && GAME_STATE.gameOver) {
+    if (GAME_STATE.gameOver) {
       drawGameOverMenu(p5);
     }
 
@@ -446,7 +446,7 @@ export default function PeskyBirdHome({ username }) {
       p5.text(
         "Tap to Start",
         0,
-        GAME_STATE.canvasHeight - 2 * FONT.size * 0.6,
+        GAME_STATE.canvasHeight - 1.5 * FONT.size,
         GAME_STATE.canvasWidth,
         FONT.size * 0.6
       );
