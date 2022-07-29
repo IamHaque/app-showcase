@@ -6,13 +6,13 @@ export default class Bird {
     this.y = y - this.h / 2;
 
     this.v = 4;
-    this.g = 0.98;
+    this.g = 0.78;
 
     this.floorY = floorY;
   }
 
   fly() {
-    this.v = -15;
+    this.v = this.h * -0.3;
   }
 
   isOnFloor() {

@@ -50,6 +50,7 @@ export default function PeskyBirdHome({ username }) {
       const data = await API.getLeaderboardData();
       HIGHSCORE_REF.current =
         data.filter((item) => item.username === username)[0]?.score || 0;
+      IS_BUSY_REF.current = false;
     };
 
     fetchLeaderboard().catch(console.error);
@@ -72,8 +73,8 @@ export default function PeskyBirdHome({ username }) {
     if (HIGHSCORE_REF.current < score) {
       await API.updateLeaderboard(username, score);
       HIGHSCORE_REF.current = score;
-      IS_BUSY_REF.current = false;
     }
+    IS_BUSY_REF.current = false;
   }
 
   const BIRD_RATIO = 83 / 61;
