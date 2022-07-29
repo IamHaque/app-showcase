@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 
 import Environment from "../classes/environment";
 import Bird from "../classes/bird";
@@ -9,6 +9,7 @@ import Pipe from "../classes/pipe";
 import * as API from "apps/peskyBird/utils/API";
 
 import styles from "../styles/home.module.scss";
+import GameOver from "../components/gameOver";
 
 const Sketch = dynamic(
   () =>
@@ -34,6 +35,9 @@ export default function PeskyBirdHome({ username }) {
 
   const HIGHSCORE_REF = useRef();
   const IS_BUSY_REF = useRef();
+
+  const [score, setScore] = useState(0);
+  const [gameOver, setGameOver] = useState(false);
 
   useEffect(() => {
     CANVAS_HEIGHT_REF.current = window.innerHeight;
@@ -86,6 +90,7 @@ export default function PeskyBirdHome({ username }) {
   const ASSETS = {};
   const LOG_ASSETS = {};
   const BIRD_ASSETS = [];
+  const MEDAL_ASSETS = {};
   let CURRENT_BIRD_INDEX = 0;
   const ENVIRONMENT_IMAGES = {};
   const ENVIRONMENT_SPEEDS = {
@@ -118,6 +123,11 @@ export default function PeskyBirdHome({ username }) {
     LOG_ASSETS["tl2"] = p5.loadImage(`/PeskyBirds/TL2.png`);
     LOG_ASSETS["bl1"] = p5.loadImage(`/PeskyBirds/BL1.png`);
     LOG_ASSETS["bl2"] = p5.loadImage(`/PeskyBirds/BL2.png`);
+
+    MEDAL_ASSETS["1"] = p5.loadImage(`/PeskyBirds/medal_1.png`);
+    MEDAL_ASSETS["2"] = p5.loadImage(`/PeskyBirds/medal_2.png`);
+    MEDAL_ASSETS["3"] = p5.loadImage(`/PeskyBirds/medal_3.png`);
+    MEDAL_ASSETS["4"] = p5.loadImage(`/PeskyBirds/medal_4.png`);
 
     for (let i = 0; i < 14; i++) {
       BIRD_ASSETS.push(p5.loadImage(`/PeskyBirds/BirdImages/${i}.png`));
@@ -155,10 +165,6 @@ export default function PeskyBirdHome({ username }) {
       drawStartMenu(p5);
     }
 
-    if (GAME_STATE.gameOver) {
-      drawGameOverMenu(p5);
-    }
-
     if (GAME_STATE.gameStarted && !GAME_STATE.gameOver) {
       for (let pipe of PIPES) {
         pipe.draw(p5, LOG_ASSETS);
@@ -182,6 +188,8 @@ export default function PeskyBirdHome({ username }) {
             GAME_STATE.gameOver = true;
 
             clearTimeout(TIMEOUT_REF.current);
+            setScore(GAME_STATE.score);
+            setGameOver(true);
           }, 500);
         }
       }
@@ -385,74 +393,6 @@ export default function PeskyBirdHome({ username }) {
     p5.pop();
   }
 
-  function drawGameOverMenu(p5) {
-    const width = GAME_STATE.canvasWidth;
-    const height = GAME_STATE.canvasHeight;
-    const centerX = GAME_STATE.canvasWidth / 2;
-    const centerY = GAME_STATE.canvasHeight / 2;
-
-    p5.stroke("#3b4048");
-    p5.strokeWeight(4);
-    p5.fill("#e0d695");
-    p5.rect(
-      centerX * 0.45,
-      centerY - FONT.size,
-      centerX * 1.1,
-      FONT.size * 2.7,
-      FONT.size * 0.3
-    );
-
-    // TOP TEXT
-    p5.textSize(FONT.size * 0.4);
-    p5.textFont(FONT.family);
-    p5.fill("#d38a5a");
-    p5.strokeWeight(1);
-    p5.stroke(255);
-
-    p5.textAlign(p5.RIGHT);
-    p5.text("SCORE", centerX * 1.4, centerY);
-
-    p5.textAlign(p5.LEFT);
-    p5.text("BEST", centerX * 0.59, centerY);
-
-    // SCORES
-    p5.strokeWeight(FONT.strokeWeight * 0.5);
-    p5.textSize(FONT.size * 0.8);
-    p5.stroke(0);
-    p5.fill(255);
-
-    p5.textAlign(p5.RIGHT);
-    p5.text(GAME_STATE.score, centerX * 1.4, centerY + FONT.size * 1);
-
-    p5.textAlign(p5.LEFT);
-
-    p5.text(HIGHSCORE_REF.current, centerX * 0.6, centerY + FONT.size * 1);
-
-    // GAME OVER text
-    p5.strokeWeight(FONT.strokeWeight);
-    p5.textFont(FONT.family);
-    p5.textAlign(p5.CENTER);
-    p5.textSize(FONT.size);
-    p5.fill("#fca146");
-    p5.stroke("#fee7d0");
-
-    p5.text("Game Over", FONT.size * 0.25, FONT.size * 2, width, FONT.size);
-
-    // Start again text
-    if (!GAME_STATE.dying) {
-      p5.textSize(FONT.size * 0.6);
-      p5.stroke("#5d4150");
-      p5.fill(FONT.fill);
-      p5.text(
-        "Tap to Start",
-        0,
-        GAME_STATE.canvasHeight - 1.5 * FONT.size,
-        GAME_STATE.canvasWidth,
-        FONT.size * 0.6
-      );
-    }
-  }
-
   function drawStartMenu(p5) {
     BIRD.draw(p5, BIRD_ASSETS[CURRENT_BIRD_INDEX]);
 
@@ -527,6 +467,18 @@ export default function PeskyBirdHome({ username }) {
         GAME_STATE.logHeight * GAME_STATE.logScale,
         BIRD.h
       )
+    );
+  }
+
+  if (gameOver) {
+    return (
+      <GameOver
+        score={score}
+        highscore={HIGHSCORE_REF.current}
+        resetGame={() => {
+          setGameOver(false);
+        }}
+      />
     );
   }
 

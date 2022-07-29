@@ -1,0 +1,245 @@
+@use "/styles/utils.scss" as *;
+
+@font-face {
+  font-family: peskyBirdFont;
+  src: url("/PeskyBirds/flappyBird.ttf");
+}
+
+.container {
+  height: 100%;
+  display: flex;
+  margin: 0 auto;
+  max-width: 520px;
+  padding: 1em 1.5em;
+  position: relative;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-evenly;
+  background-image: $bg-gradient;
+
+  & > * {
+    z-index: 10;
+  }
+
+  &::before {
+    inset: 0;
+    content: "";
+    position: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url("/PeskyBirds/Sky.png");
+  }
+}
+
+.bg,
+.bg1,
+.bg2 {
+  inset: 0;
+  position: absolute;
+
+  &::before,
+  &::after {
+    inset: 0;
+    content: "";
+    position: absolute;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+  }
+}
+
+.bg1::before {
+  background-image: url("/PeskyBirds/Sky.png");
+}
+
+.bg1::after {
+  background-image: url("/PeskyBirds/Clouds.png");
+}
+
+.bg2::before {
+  background-image: url("/PeskyBirds/Buildings.png");
+}
+
+.bg2::after {
+  background-image: url("/PeskyBirds/Trees.png");
+}
+
+.bg::after {
+  background-image: url("/PeskyBirds/Grass.png");
+}
+
+.bg::before {
+  z-index: 5;
+  background-color: #0005;
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  transform: scale(1.1);
+  justify-content: center;
+
+  img {
+    image-rendering: auto;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+  }
+}
+
+.footer {
+  color: white;
+  font-size: 1.75rem;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: peskyBirdFont;
+  text-shadow: 0 2px 8px #000;
+}
+
+.main {
+  gap: 5em;
+  display: grid;
+  max-width: 80%;
+  padding: 2em 3em;
+  border-radius: 5px;
+  image-rendering: pixelated;
+  background-color: #e0d695;
+  outline: 5px solid #3b4048;
+  grid-template-columns: 1fr 1fr;
+
+  .heading {
+    width: 100%;
+    color: #d38a5a;
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    font-family: $fontFamily;
+    text-transform: uppercase;
+    font-weight: $fw-semi-bold;
+  }
+
+  .left,
+  .right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  .right {
+    gap: 0.5em;
+  }
+
+  .score,
+  .highscore {
+    width: 100%;
+    height: 100%;
+    text-align: right;
+
+    .scoreText,
+    .highscoreText {
+      color: white;
+      font-size: 2rem;
+      text-transform: uppercase;
+      font-family: peskyBirdFont;
+      text-shadow: 0 0 2px #000;
+    }
+  }
+
+  .medal {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+
+    img {
+      image-rendering: auto;
+      image-rendering: crisp-edges;
+      image-rendering: pixelated;
+    }
+  }
+}
+
+.buttons {
+  gap: 5em;
+  display: grid;
+  max-width: 80%;
+  grid-template-columns: 1fr 1fr;
+
+  .button {
+    border: none;
+    display: flex;
+    outline: none;
+    color: black;
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 6px;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    transition: all 300ms ease-in-out;
+    border: 3px solid rgba(0, 0, 0, 0.4);
+
+    &:focus,
+    &:active,
+    &:hover {
+      border-color: rgba(0, 0, 0, 0.8);
+      background-color: hsl(0, 0%, 90%);
+    }
+
+    span {
+      width: 50%;
+      height: 50%;
+      display: flex;
+
+      & > * {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    &:first-child {
+      color: $success-600;
+    }
+
+    &:last-child {
+      color: $warning-600;
+    }
+  }
+}
+
+@media screen and( max-width:320px ) {
+  .main {
+    gap: 1em;
+    max-width: 96%;
+    justify-content: center;
+
+    .heading {
+      width: 100%;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    .score,
+    .highscore {
+      text-align: center;
+
+      .scoreText,
+      .highscoreText {
+        font-size: 1.5rem;
+      }
+    }
+  }
+
+  .buttons {
+    gap: 1em;
+    max-width: 96%;
+
+    .button {
+      padding: 2px 4px;
+    }
+  }
+
+  .footer {
+    font-size: 1.1rem;
+  }
+}
