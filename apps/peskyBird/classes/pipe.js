@@ -15,6 +15,21 @@ export default class Pipe {
     this.passed = false;
     this.topImage = 1 + Math.floor(Math.random() * 2);
     this.bottomImage = 1 + Math.floor(Math.random() * 2);
+
+    this.rects = [
+      {
+        rw: this.w * 0.85,
+        rh: this.yTop - 2,
+        rx: this.x,
+        ry: -10,
+      },
+      {
+        rw: this.w * 0.85,
+        rh: this.availableHeight,
+        rx: this.x,
+        ry: this.yBottom + 2,
+      },
+    ];
   }
 
   isOffScreen() {
@@ -30,12 +45,29 @@ export default class Pipe {
   }
 
   collidesWith(bird) {
-    if (
-      !(bird.y + bird.h < this.yBottom && bird.y > this.yTop) &&
-      !(bird.x + bird.w < this.x || bird.x > this.x + this.w * 0.8)
-    ) {
-      this.passed = true;
-      return true;
+    const B = {
+      r: bird.h / 2,
+      cx: bird.x + bird.w / 2,
+      cy: bird.y + bird.h / 2,
+    };
+
+    for (let R of this.rects) {
+      let testX = B.cx;
+      let testY = B.cy;
+
+      if (B.cx < R.rx) testX = R.rx; // left edge
+      else if (B.cx > R.rx + R.rw) testX = R.rx + R.rw; // right edge
+
+      if (B.cy < R.ry) testY = R.ry; // top edge
+      else if (B.cy > R.ry + R.rh) testY = R.ry + R.rh; // bottom edge
+
+      let distX = B.cx - testX;
+      let distY = B.cy - testY;
+      let distance = Math.sqrt(distX * distX + distY * distY);
+
+      if (distance <= B.r) {
+        return true;
+      }
     }
 
     return false;
@@ -43,6 +75,8 @@ export default class Pipe {
 
   update(speed) {
     this.x -= speed;
+    this.rects[0].rx = this.x;
+    this.rects[1].rx = this.x;
   }
 
   draw(p5, images) {

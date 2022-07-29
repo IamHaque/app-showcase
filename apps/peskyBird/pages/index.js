@@ -38,7 +38,7 @@ export default function PeskyBirdHome({ username }) {
   useEffect(() => {
     CANVAS_HEIGHT_REF.current = window.innerHeight;
     CANVAS_WIDTH_REF.current =
-      window.innerWidth > 480 ? 480 : window.innerWidth;
+      window.innerWidth > 520 ? 520 : window.innerWidth;
 
     FLY_SOUND_REF.current = new Audio("/PeskyBirds/SoundFX/fly.mp3");
     HIT_SOUND_REF.current = new Audio("/PeskyBirds/SoundFX/hit.mp3");
@@ -210,7 +210,6 @@ export default function PeskyBirdHome({ username }) {
             playSound(HIT_SOUND_REF);
             GAME_STATE.dying = true;
             BIRD.fly();
-
             updateLeaderboard(GAME_STATE.score);
           }
 
@@ -324,6 +323,9 @@ export default function PeskyBirdHome({ username }) {
       );
     }
 
+    if (BIRD_ASSETS.length > 14) {
+      BIRD_ASSETS.splice(14);
+    }
     for (let birdAsset of BIRD_ASSETS) {
       birdAsset.resize(BIRD_SIZE.w, BIRD_SIZE.h);
     }
