@@ -61,11 +61,10 @@ export default function PeskyBirdHome({ username }) {
   }, []);
 
   function playSound(sound) {
-    if (!sound.current.paused) return;
-
     if (sound === HIT_SOUND_REF) {
       sound.current.play().then((_) => DEATH_SOUND_REF.current.play());
     } else {
+      sound.current.currentTime = 0;
       sound.current.play();
     }
   }
@@ -412,27 +411,33 @@ export default function PeskyBirdHome({ username }) {
     p5.fill("#57d957");
     p5.stroke(255);
 
-    p5.text("PESKY BIRD", 0, FONT.size, GAME_STATE.canvasWidth, FONT.size);
+    p5.text(
+      "PESKY BIRD",
+      FONT.size / 4,
+      FONT.size,
+      GAME_STATE.canvasWidth,
+      FONT.size
+    );
 
     p5.stroke("#5d4150");
     p5.fill(FONT.fill);
 
-    p5.textSize(FONT.size * 0.6);
-    p5.text(
-      "Tap to Start",
-      0,
-      GAME_STATE.canvasHeight - 1.5 * FONT.size,
-      GAME_STATE.canvasWidth,
-      FONT.size * 0.6
-    );
-
     p5.textSize(FONT.size * 0.8);
     p5.text(
       "Get Ready!",
-      0,
+      FONT.size / 4,
       3 * FONT.size,
       GAME_STATE.canvasWidth,
       FONT.size * 0.8
+    );
+
+    p5.textSize(FONT.size * 0.6);
+    p5.text(
+      "Tap to Start",
+      FONT.size / 4,
+      GAME_STATE.canvasHeight - 1.5 * FONT.size,
+      GAME_STATE.canvasWidth,
+      FONT.size * 0.6
     );
 
     p5.pop();
